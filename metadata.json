@@ -1,0 +1,6 @@
+{
+  "name": "AI Mastery for Senior QA",
+  "description": "Nền tảng học tập & thực hành AI nâng cao dành cho Tester/QA: Lộ trình từ cơ bản đến Senior, CARE Prompt framework, SDLC Multi-Agent, Quiz trắc nghiệm & AI chấm điểm tự luận.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
