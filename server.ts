@@ -4,6 +4,7 @@ import { fileURLToPath } from "url";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
+import { buildEssayPrompt, DEFAULT_GEMINI_MODEL } from "./src/lib/aiPrompts";
 
 dotenv.config();
 
@@ -12,7 +13,8 @@ const __dirname = path.dirname(__filename);
 
 async function startServer() {
   const app = express();
-  const PORT = 3000;
+  const PORT = Number(process.env.PORT) || 3000;
+  const MODEL = process.env.GEMINI_MODEL || DEFAULT_GEMINI_MODEL;
 
   app.use(express.json({ limit: "10mb" }));
 
@@ -48,33 +50,10 @@ async function startServer() {
 
       const ai = getAiClient();
 
-      const prompt = `
-Bạn là một Giám khảo / Trưởng phòng QA Senior (QA Manager) có kinh nghiệm sâu sắc về AI Testing và Test Engineering.
-Hãy đánh giá câu trả lời của ứng viên Senior QA dưới đây một cách công tâm, khách quan và chuyên nghiệp.
-
-Tên câu hỏi / Chủ đề: ${questionTitle || "Câu hỏi tự luận QA"}
-Bối cảnh / Yêu cầu: ${questionContext || "N/A"}
-Các ý cốt lõi cần đạt (Expected Key Points): ${JSON.stringify(expectedKeyPoints || [])}
-
-Câu trả lời của ứng viên:
-"""
-${userAnswer}
-"""
-
-Hãy đánh giá theo chuẩn Senior QA và trả về định dạng JSON với cấu trúc chính xác như sau:
-{
-  "score": number (thang điểm từ 0 đến 100),
-  "verdict": string ("Xuất sắc", "Khá tốt", "Cần bổ sung", "Chưa đạt"),
-  "summary": string (Tóm tắt ngắn gọn 2-3 câu đánh giá tổng quan),
-  "strengths": [string] (Danh sách các điểm sáng, góc nhìn đúng đắn),
-  "weaknesses": [string] (Danh sách các điểm thiếu sót hoặc rủi ro chưa tính tới),
-  "improvedAnswer": string (Một câu trả lời chuẩn mực Senior QA mẫu để ứng viên tham khảo)
-}
-Lưu ý: Đảm bảo trả về JSON hợp lệ, ngôn ngữ tiếng Việt tự nhiên, chuyên nghiệp.
-`;
+      const prompt = buildEssayPrompt({ questionTitle, questionContext, userAnswer, expectedKeyPoints });
 
       const response = await ai.models.generateContent({
-        model: "gemini-3.6-flash",
+        model: MODEL,
         contents: prompt,
         config: {
           responseMimeType: "application/json",
@@ -122,7 +101,7 @@ Trả về dạng JSON:
 `;
 
       const response = await ai.models.generateContent({
-        model: "gemini-3.6-flash",
+        model: MODEL,
         contents: prompt,
         config: {
           responseMimeType: "application/json",
@@ -171,7 +150,7 @@ Trả về JSON có cấu trúc:
 `;
 
       const response = await ai.models.generateContent({
-        model: "gemini-3.6-flash",
+        model: MODEL,
         contents: prompt,
         config: {
           responseMimeType: "application/json",
