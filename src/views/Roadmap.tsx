@@ -6,6 +6,8 @@ import { href } from '../lib/router';
 import { ProgressApi } from '../lib/progress';
 import { Stage } from '../types';
 import { AiExplainer } from '../components/AiExplainer';
+import { CompareTabs, DecisionFlow, FlowMap } from '../components/Visuals';
+import { VISUALS } from '../data/visuals';
 
 // ───────────────────────────── Home: the roadmap ─────────────────────────────
 export const RoadmapView: React.FC<{ api: ProgressApi }> = ({ api }) => {
@@ -28,7 +30,7 @@ export const RoadmapView: React.FC<{ api: ProgressApi }> = ({ api }) => {
 
       <div className="flex flex-col items-center gap-2 pt-2 text-center">
         <h2 className="text-2xl font-extrabold text-slate-900 dark:text-white">Lộ trình 6 chặng</h2>
-        <p className="text-xs text-slate-500">Mỗi chặng: vài ý cần nắm · 1 bài thực hành · 1 prompt dùng ngay · 3 câu tự kiểm tra</p>
+        <p className="text-xs text-slate-500">Mỗi chặng: sơ đồ bức tranh lớn · ý chính có ví dụ · cây quyết định “chọn đúng” · thực hành · prompt dùng ngay · tự kiểm tra</p>
         <div className="flex items-center gap-3 pt-1">
           <a href={href(`stage/${next.id}`)} className="btn-primary px-5 py-2.5 text-sm">
             {done.size ? 'Học tiếp' : 'Bắt đầu'} · Chặng {ROADMAP.indexOf(next) + 1} <ArrowRight className="h-4 w-4" />
@@ -156,7 +158,9 @@ const TryNow: React.FC<{ stage: Stage }> = ({ stage }) => {
 
 // ───────────────────────────── Stage page ─────────────────────────────
 const SECTIONS = [
-  { icon: '📖', name: 'Hiểu' },
+  { icon: '🗺️', name: 'Bức tranh' },
+  { icon: '📖', name: 'Ý chính' },
+  { icon: '🧭', name: 'Chọn đúng' },
   { icon: '🧪', name: 'Thực hành' },
   { icon: '⚡', name: 'Dùng ngay' },
   { icon: '✅', name: 'Kiểm tra' },
@@ -218,7 +222,7 @@ const ConceptCards: React.FC<{ stage: Stage; onFinish: () => void }> = ({ stage,
             {p.ex && <Example ex={p.ex} />}
           </div>
         ))}
-        <div className="flex justify-end"><button className="btn-primary px-5 py-2.5 text-sm" onClick={onFinish}>Sang thực hành →</button></div>
+        <div className="flex justify-end"><button className="btn-primary px-5 py-2.5 text-sm" onClick={onFinish}>Sang chọn đúng →</button></div>
       </div>
     );
   }
@@ -254,7 +258,7 @@ const ConceptCards: React.FC<{ stage: Stage; onFinish: () => void }> = ({ stage,
         <button className="btn-ghost" disabled={i === 0} onClick={() => setI(i - 1)}><ArrowLeft className="h-4 w-4" /> Ý trước</button>
         <span className="hidden text-xs text-slate-400 sm:inline">Dùng phím ← → để chuyển</span>
         {last ? (
-          <button className="btn-primary px-5 py-2.5 text-sm" onClick={onFinish}>Hiểu rồi · Sang thực hành <ArrowRight className="h-4 w-4" /></button>
+          <button className="btn-primary px-5 py-2.5 text-sm" onClick={onFinish}>Hiểu rồi · Luyện chọn đúng <ArrowRight className="h-4 w-4" /></button>
         ) : (
           <button className="btn-primary px-5 py-2.5 text-sm" onClick={() => setI(i + 1)}>Ý tiếp <ArrowRight className="h-4 w-4" /></button>
         )}
@@ -271,6 +275,7 @@ export const StageView: React.FC<{ stageId: string; api: ProgressApi }> = ({ sta
   const next = ROADMAP[idx + 1];
   const isDone = api.progress.doneStages.includes(stage.id);
   const Lab = LAB_BY_ID[stage.lab].Component;
+  const visual = VISUALS[stage.id];
   const goSection = (k: number) => {
     setSection(k);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -293,7 +298,7 @@ export const StageView: React.FC<{ stageId: string; api: ProgressApi }> = ({ sta
 
       {/* Stepper */}
       <nav className="sticky top-14 z-30 -mx-4 bg-slate-50/90 px-4 py-2 backdrop-blur dark:bg-[#0B0F1A]/90">
-        <ol className="grid grid-cols-4 gap-2">
+        <ol className="grid grid-cols-3 gap-1.5 sm:grid-cols-6 sm:gap-2">
           {SECTIONS.map((sct, k) => (
             <li key={sct.name}>
               <button
@@ -313,9 +318,34 @@ export const StageView: React.FC<{ stageId: string; api: ProgressApi }> = ({ sta
         </ol>
       </nav>
 
-      {section === 0 && <ConceptCards key={stage.id} stage={stage} onFinish={() => goSection(1)} />}
+      {section === 0 && visual && (
+        <section className="space-y-3 animate-fadeIn">
+          <div>
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">🗺️ {visual.diagram.title}</h2>
+            <p className="text-sm text-slate-500">Nhìn cả bức tranh trước khi đi vào chi tiết. Bấm từng khối để xem nó làm gì.</p>
+          </div>
+          <FlowMap diagram={visual.diagram} />
+          <div className="flex justify-end pt-2">
+            <button className="btn-primary px-5 py-2.5 text-sm" onClick={() => goSection(1)}>Đi vào từng ý <ArrowRight className="h-4 w-4" /></button>
+          </div>
+        </section>
+      )}
 
-      {section === 1 && (
+      {section === 1 && <ConceptCards key={stage.id} stage={stage} onFinish={() => goSection(2)} />}
+
+      {section === 2 && visual && (
+        <section className="space-y-6 animate-fadeIn">
+          <p className="text-base text-slate-600 dark:text-slate-400">Biết rồi chưa đủ — phải chọn đúng khi gặp tình huống thật. Đi theo cây, rồi xem các cặp hay nhầm.</p>
+          <DecisionFlow key={stage.id} tree={visual.decide} />
+          <CompareTabs key={stage.id + '-cmp'} list={visual.compare} />
+          <div className="flex justify-between pt-2">
+            <button className="btn-ghost" onClick={() => goSection(1)}><ArrowLeft className="h-4 w-4" /> Ý chính</button>
+            <button className="btn-primary px-5 py-2.5 text-sm" onClick={() => goSection(3)}>Bắt tay thực hành <ArrowRight className="h-4 w-4" /></button>
+          </div>
+        </section>
+      )}
+
+      {section === 3 && (
         <section className="space-y-3 animate-fadeIn">
           <p className="text-base text-slate-600 dark:text-slate-400">Bấm thử, quan sát kết quả thay đổi — đây là cách nhanh nhất để “thấm”.</p>
           <Lab />
@@ -329,23 +359,23 @@ export const StageView: React.FC<{ stageId: string; api: ProgressApi }> = ({ sta
             </p>
           )}
           <div className="flex justify-between pt-2">
-            <button className="btn-ghost" onClick={() => goSection(0)}><ArrowLeft className="h-4 w-4" /> Xem lại ý chính</button>
-            <button className="btn-primary px-5 py-2.5 text-sm" onClick={() => goSection(2)}>Áp dụng vào việc thật <ArrowRight className="h-4 w-4" /></button>
+            <button className="btn-ghost" onClick={() => goSection(2)}><ArrowLeft className="h-4 w-4" /> Chọn đúng</button>
+            <button className="btn-primary px-5 py-2.5 text-sm" onClick={() => goSection(4)}>Áp dụng vào việc thật <ArrowRight className="h-4 w-4" /></button>
           </div>
         </section>
       )}
 
-      {section === 2 && (
+      {section === 4 && (
         <section className="space-y-3 animate-fadeIn">
           <TryNow stage={stage} />
           <div className="flex justify-between pt-2">
-            <button className="btn-ghost" onClick={() => goSection(1)}><ArrowLeft className="h-4 w-4" /> Thực hành</button>
-            <button className="btn-primary px-5 py-2.5 text-sm" onClick={() => goSection(3)}>Tự kiểm tra <ArrowRight className="h-4 w-4" /></button>
+            <button className="btn-ghost" onClick={() => goSection(3)}><ArrowLeft className="h-4 w-4" /> Thực hành</button>
+            <button className="btn-primary px-5 py-2.5 text-sm" onClick={() => goSection(5)}>Tự kiểm tra <ArrowRight className="h-4 w-4" /></button>
           </div>
         </section>
       )}
 
-      {section === 3 && (
+      {section === 5 && (
         <section className="space-y-5 animate-fadeIn">
           <SelfCheck key={stage.id} stage={stage} best={api.progress.quizScores[stage.id]} onScore={(n) => api.saveQuiz(stage.id, n)} />
           <div className="card flex flex-wrap items-center justify-between gap-3 p-5">

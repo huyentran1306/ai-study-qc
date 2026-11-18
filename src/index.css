@@ -30,3 +30,12 @@ html { scroll-behavior: smooth; font-size: 100%; }
 }
 @utility lab-title { @apply flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white; }
 @utility muted { @apply text-slate-500 dark:text-slate-400; }
+
+/* Flow diagram: animated dashes + opacity-only entrance (CSS transforms would override SVG positions) */
+:root { --fm-halo: #ffffff; }
+.dark { --fm-halo: #0b0f1a; }
+@keyframes fmFlow { to { stroke-dashoffset: -28; } }
+@keyframes fmFade { from { opacity: 0; } to { opacity: 1; } }
+.fm-flow { animation: fmFlow 1.2s linear infinite; }
+.fm-node { animation: fmFade .5s ease-out both; }
+@media (prefers-reduced-motion: reduce) { .fm-flow, .fm-node { animation: none; } }

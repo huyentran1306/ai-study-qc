@@ -38,3 +38,40 @@ export interface UserProgress {
   doneStages: string[];
   quizScores: Record<string, number>; // stageId -> correct answers
 }
+
+/* ───────── Visual learning (diagram · decision tree · comparison) ───────── */
+export interface FlowNode {
+  id: string;
+  label: string;
+  sub?: string;
+  emoji: string;
+  /** Centre position inside a 1200 × 440 canvas */
+  x: number;
+  y: number;
+  side?: boolean;
+  what: string;
+  tip: string;
+}
+export interface FlowDiagram {
+  title: string;
+  nodes: FlowNode[];
+  /** [from, to, label?, dashed?] */
+  edges: [string, string, string?, boolean?][];
+}
+export type DecideNode = { q: string; opts: [string, string][] } | { answer: string; why: string; remember?: string };
+export interface DecisionTree {
+  title: string;
+  start: string;
+  nodes: Record<string, DecideNode>;
+}
+export interface Comparison {
+  a: string;
+  b: string;
+  rows: [string, string, string][];
+  rule: string;
+}
+export interface StageVisual {
+  diagram: FlowDiagram;
+  decide: DecisionTree;
+  compare: Comparison[];
+}
