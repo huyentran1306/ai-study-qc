@@ -90,11 +90,12 @@ export const AiExplainer: React.FC = () => {
   const answer = GEN.slice(0, gen).map((c) => c[0].w).join('');
 
   return (
-    <div className="overflow-hidden rounded-3xl border border-indigo-200/70 bg-white shadow-xl shadow-indigo-500/10 dark:border-indigo-500/20 dark:bg-[#0F1424]">
+    <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-300/40 dark:border-indigo-500/20 dark:bg-[#0F1424]">
       {/* Title bar */}
-      <div className="flex items-center gap-2 border-b border-slate-100 bg-gradient-to-r from-indigo-600 to-violet-600 px-4 py-2.5 text-white dark:border-slate-800">
-        <span className="text-base font-bold">🔍 Bên trong AI — xem trong 1 phút</span>
-        <span className="ml-auto font-mono text-xs opacity-80">{step + 1}/{STEPS.length}</span>
+      <div className="flex items-center gap-2 border-b border-slate-100 bg-slate-50/80 px-5 py-3 dark:border-slate-800 dark:bg-slate-900/60">
+        <span className="h-3 w-3 rounded-full bg-rose-400" /><span className="h-3 w-3 rounded-full bg-amber-400" /><span className="h-3 w-3 rounded-full bg-emerald-400" />
+        <span className="ml-2 text-sm font-bold text-slate-700 dark:text-slate-200">🔍 Bên trong AI</span>
+        <span className="ml-auto rounded-full bg-indigo-100 px-2.5 py-0.5 font-mono text-xs font-bold text-indigo-700 dark:bg-indigo-500/15 dark:text-indigo-300">{step + 1}/{STEPS.length}</span>
       </div>
 
       {/* Progress */}
@@ -104,7 +105,7 @@ export const AiExplainer: React.FC = () => {
         ))}
       </div>
 
-      <div className="min-h-[340px] space-y-4 p-5">
+      <div className="min-h-[320px] space-y-4 p-5 lg:p-6">
         <div key={step} className="animate-fadeIn space-y-1">
           <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white">{STEPS[step].title}</h3>
           {STEPS[step].note && <p className="text-base leading-relaxed text-slate-600 dark:text-slate-400">{STEPS[step].note}</p>}

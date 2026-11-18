@@ -9,7 +9,7 @@ import { ProgressApi } from '../lib/progress';
 import { stageVars } from '../lib/stageTheme';
 import { Stage } from '../types';
 
-const SECTIONS = [
+export const SECTIONS = [
   { id: 'map', icon: '🗺️', name: 'Bức tranh lớn', hint: 'Nhìn toàn cảnh' },
   { id: 'ideas', icon: '📖', name: 'Ý chính', hint: 'Mỗi ý một ví dụ' },
   { id: 'decide', icon: '🧭', name: 'Chọn đúng', hint: 'Tình huống thật' },
@@ -21,7 +21,7 @@ const SECTIONS = [
 const pad = (n: number) => String(n).padStart(2, '0');
 
 /* ───────── small pieces ───────── */
-const Ring: React.FC<{ value: number; total: number; size?: number; label?: string; light?: boolean }> = ({ value, total, size = 64, label, light }) => {
+export const Ring: React.FC<{ value: number; total: number; size?: number; label?: string; light?: boolean }> = ({ value, total, size = 64, label, light }) => {
   const r = size / 2 - 5;
   const c = 2 * Math.PI * r;
   return (
