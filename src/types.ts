@@ -17,7 +17,8 @@ export interface Stage {
   analogy: string;
   /** A ready-to-copy prompt the learner can use at work today */
   tryNow: { label: string; prompt: string };
-  points: { t: string; d: string }[];
+  /** Key points; `ex` is a side-by-side example (default labels: ❌ Chưa tốt / ✅ Tốt hơn). */
+  points: { t: string; d: string; ex?: { l: string; r: string; ll?: string; rl?: string } }[];
   lab: LabId;
   extraLabs?: LabId[];
   istqb: string;

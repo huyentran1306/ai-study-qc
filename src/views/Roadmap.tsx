@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowLeft, ArrowRight, CheckCircle2, Circle, Clock, FlaskConical } from 'lucide-react';
 import { ROADMAP, SOURCES, STAGE_BY_ID } from '../data/roadmap';
 import { LABS, LAB_BY_ID } from '../components/labs/registry';
@@ -15,7 +15,7 @@ export const RoadmapView: React.FC<{ api: ProgressApi }> = ({ api }) => {
   return (
     <div className="mx-auto max-w-5xl space-y-10 px-4 py-12 animate-fadeIn">
       <header className="space-y-3 text-center">
-        <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 lg:text-5xl dark:text-white">
+        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 lg:text-4xl dark:text-white">
           Hiểu AI trong 1 phút.<br />
           <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">Dùng AI để test trong 6 chặng.</span>
         </h1>
@@ -155,70 +155,219 @@ const TryNow: React.FC<{ stage: Stage }> = ({ stage }) => {
 };
 
 // ───────────────────────────── Stage page ─────────────────────────────
+const SECTIONS = [
+  { icon: '📖', name: 'Hiểu' },
+  { icon: '🧪', name: 'Thực hành' },
+  { icon: '⚡', name: 'Dùng ngay' },
+  { icon: '✅', name: 'Kiểm tra' },
+];
+
+/** One idea per card, each with a concrete side-by-side example. */
+const ConceptCards: React.FC<{ stage: Stage; onFinish: () => void }> = ({ stage, onFinish }) => {
+  const [i, setI] = useState(0);
+  const [listMode, setListMode] = useState(false);
+  const n = stage.points.length;
+  const last = i === n - 1;
+
+  useEffect(() => {
+    if (listMode) return;
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.target as HTMLElement)?.closest('input, textarea, select')) return;
+      if (e.key === 'ArrowRight') setI((x) => Math.min(n - 1, x + 1));
+      if (e.key === 'ArrowLeft') setI((x) => Math.max(0, x - 1));
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [listMode, n]);
+
+  const Example: React.FC<{ ex: NonNullable<Stage['points'][number]['ex']> }> = ({ ex }) => {
+    const neutral = Boolean(ex.ll || ex.rl);
+    const box = (label: string, text: string, tone: 'bad' | 'good' | 'a' | 'b') => (
+      <div
+        className={`rounded-2xl border p-4 ${
+          tone === 'bad' ? 'border-rose-200 bg-rose-50/80 dark:border-rose-500/30 dark:bg-rose-500/10'
+          : tone === 'good' ? 'border-emerald-200 bg-emerald-50/80 dark:border-emerald-500/30 dark:bg-emerald-500/10'
+          : tone === 'a' ? 'border-sky-200 bg-sky-50/80 dark:border-sky-500/30 dark:bg-sky-500/10'
+          : 'border-violet-200 bg-violet-50/80 dark:border-violet-500/30 dark:bg-violet-500/10'
+        }`}
+      >
+        <div className={`mb-1.5 text-xs font-bold uppercase tracking-wider ${
+          tone === 'bad' ? 'text-rose-600 dark:text-rose-400' : tone === 'good' ? 'text-emerald-600 dark:text-emerald-400' : tone === 'a' ? 'text-sky-600 dark:text-sky-400' : 'text-violet-600 dark:text-violet-400'
+        }`}>{label}</div>
+        <div className="space-y-1 text-sm leading-relaxed text-slate-800 dark:text-slate-200">
+          {text.split(' · ').map((line, k) => <p key={k}>{line}</p>)}
+        </div>
+      </div>
+    );
+    return (
+      <div className="grid gap-3 md:grid-cols-2">
+        {box(ex.ll ?? '❌ Chưa tốt', ex.l, neutral ? 'a' : 'bad')}
+        {box(ex.rl ?? '✅ Tốt hơn', ex.r, neutral ? 'b' : 'good')}
+      </div>
+    );
+  };
+
+  if (listMode) {
+    return (
+      <div className="space-y-4">
+        <div className="flex justify-end"><button className="text-sm text-indigo-600 underline dark:text-indigo-400" onClick={() => setListMode(false)}>Học từng thẻ</button></div>
+        {stage.points.map((p, k) => (
+          <div key={k} className="card space-y-3 p-5">
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white">{k + 1}. {p.t}</h3>
+            <p className="text-slate-600 dark:text-slate-400">{p.d}</p>
+            {p.ex && <Example ex={p.ex} />}
+          </div>
+        ))}
+        <div className="flex justify-end"><button className="btn-primary px-5 py-2.5 text-sm" onClick={onFinish}>Sang thực hành →</button></div>
+      </div>
+    );
+  }
+
+  const p = stage.points[i];
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center gap-3">
+        <div className="flex flex-1 gap-1.5">
+          {stage.points.map((_, k) => (
+            <button key={k} onClick={() => setI(k)} aria-label={`Ý ${k + 1}`} className={`h-2 flex-1 rounded-full transition-colors ${k <= i ? 'bg-indigo-500' : 'bg-slate-200 dark:bg-slate-700'}`} />
+          ))}
+        </div>
+        <span className="font-mono text-sm text-slate-500">{i + 1}/{n}</span>
+        <button className="text-sm text-indigo-600 underline dark:text-indigo-400" onClick={() => setListMode(true)}>Xem tất cả</button>
+      </div>
+
+      <div key={i} className="card animate-fadeIn space-y-5 p-6 lg:p-8">
+        <div className="space-y-2">
+          <div className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Ý {i + 1}</div>
+          <h3 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">{p.t}</h3>
+          <p className="text-base leading-relaxed text-slate-600 dark:text-slate-400">{p.d}</p>
+        </div>
+        {p.ex && (
+          <div className="space-y-2">
+            <div className="text-xs font-bold uppercase tracking-wider text-slate-500">Ví dụ</div>
+            <Example ex={p.ex} />
+          </div>
+        )}
+      </div>
+
+      <div className="flex items-center justify-between">
+        <button className="btn-ghost" disabled={i === 0} onClick={() => setI(i - 1)}><ArrowLeft className="h-4 w-4" /> Ý trước</button>
+        <span className="hidden text-xs text-slate-400 sm:inline">Dùng phím ← → để chuyển</span>
+        {last ? (
+          <button className="btn-primary px-5 py-2.5 text-sm" onClick={onFinish}>Hiểu rồi · Sang thực hành <ArrowRight className="h-4 w-4" /></button>
+        ) : (
+          <button className="btn-primary px-5 py-2.5 text-sm" onClick={() => setI(i + 1)}>Ý tiếp <ArrowRight className="h-4 w-4" /></button>
+        )}
+      </div>
+    </div>
+  );
+};
+
 export const StageView: React.FC<{ stageId: string; api: ProgressApi }> = ({ stageId, api }) => {
+  const [section, setSection] = useState(0);
   const stage = STAGE_BY_ID[stageId];
   if (!stage) return <div className="p-10 text-center text-sm">Không tìm thấy chặng. <a className="underline" href={href('')}>Về lộ trình</a></div>;
   const idx = ROADMAP.indexOf(stage);
-  const prev = ROADMAP[idx - 1];
   const next = ROADMAP[idx + 1];
   const isDone = api.progress.doneStages.includes(stage.id);
   const Lab = LAB_BY_ID[stage.lab].Component;
+  const goSection = (k: number) => {
+    setSection(k);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
-    <div className="mx-auto max-w-5xl space-y-7 px-4 py-10 animate-fadeIn">
-      <a href={href('')} className="inline-flex items-center gap-1 text-xs font-semibold text-slate-500 hover:text-indigo-600"><ArrowLeft className="h-3.5 w-3.5" /> Lộ trình</a>
+    <div className="mx-auto max-w-5xl space-y-6 px-4 py-8 animate-fadeIn">
+      <a href={href('')} className="inline-flex items-center gap-1 text-sm font-semibold text-slate-500 hover:text-indigo-600"><ArrowLeft className="h-3.5 w-3.5" /> Lộ trình</a>
 
       <header className="space-y-2">
         <div className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Chặng {idx + 1}/{ROADMAP.length} · {stage.duration}</div>
-        <h1 className="flex items-center gap-2 text-3xl font-extrabold tracking-tight text-slate-900 lg:text-4xl dark:text-white"><span>{stage.emoji}</span> {stage.title}</h1>
-        <p className="text-lg text-slate-600 dark:text-slate-400">🎯 {stage.goal}</p>
+        <h1 className="flex items-center gap-2 text-2xl font-extrabold tracking-tight text-slate-900 lg:text-3xl dark:text-white"><span>{stage.emoji}</span> {stage.title}</h1>
+        <p className="text-base text-slate-600 dark:text-slate-400">🎯 {stage.goal}</p>
       </header>
 
-      <div className="rounded-2xl border border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50 p-5 text-base leading-relaxed text-amber-950 dark:border-amber-500/30 dark:from-amber-500/10 dark:to-orange-500/10 dark:text-amber-100">
+      <div className="rounded-2xl border border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50 p-4 text-base leading-relaxed text-amber-950 dark:border-amber-500/30 dark:from-amber-500/10 dark:to-orange-500/10 dark:text-amber-100">
         <span className="mb-1 block text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">Hiểu nhanh</span>
         {stage.analogy}
       </div>
 
-      <section className="card p-6">
-        <h2 className="mb-4 text-xl font-bold text-slate-900 dark:text-white">📌 Cần nắm</h2>
-        <ol className="space-y-3">
-          {stage.points.map((p, i) => (
-            <li key={i} className="flex gap-3 text-base">
-              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-indigo-100 font-mono text-xs font-bold text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300">{i + 1}</span>
-              <div>
-                <div className="font-semibold text-slate-900 dark:text-white">{p.t}</div>
-                <div className="mt-0.5 leading-relaxed text-slate-600 dark:text-slate-400">{p.d}</div>
-              </div>
+      {/* Stepper */}
+      <nav className="sticky top-14 z-30 -mx-4 bg-slate-50/90 px-4 py-2 backdrop-blur dark:bg-[#0B0F1A]/90">
+        <ol className="grid grid-cols-4 gap-2">
+          {SECTIONS.map((sct, k) => (
+            <li key={sct.name}>
+              <button
+                onClick={() => goSection(k)}
+                className={`flex w-full flex-col items-center justify-center gap-0.5 rounded-xl border px-1 py-1.5 text-xs font-semibold transition sm:flex-row sm:gap-1.5 sm:px-2 sm:py-2 sm:text-sm ${
+                  k === section ? 'border-indigo-600 bg-indigo-600 text-white shadow-md shadow-indigo-600/20'
+                  : k < section ? 'border-emerald-300 bg-emerald-50 text-emerald-700 dark:border-emerald-500/40 dark:bg-emerald-500/10 dark:text-emerald-300'
+                  : 'border-slate-200 bg-white text-slate-600 hover:border-indigo-300 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300'
+                }`}
+              >
+                <span>{k < section ? '✓' : sct.icon}</span>
+                <span className="hidden sm:inline">{k + 1}. {sct.name}</span>
+                <span className="sm:hidden">{sct.name}</span>
+              </button>
             </li>
           ))}
         </ol>
-        <p className="mt-4 border-t border-slate-100 pt-3 text-xs text-slate-500 dark:border-slate-800">Liên quan ISTQB: {stage.istqb}</p>
-      </section>
+      </nav>
 
-      <TryNow stage={stage} />
+      {section === 0 && <ConceptCards key={stage.id} stage={stage} onFinish={() => goSection(1)} />}
 
-      <section>
-        <h2 className="text-xl font-bold text-slate-900 dark:text-white">🧪 Thực hành</h2>
-        <Lab />
-        {stage.extraLabs && (
-          <p className="mt-2 text-xs text-slate-500">
-            Thêm: {stage.extraLabs.map((l, i) => (
-              <React.Fragment key={l}>{i > 0 && ' · '}<a className="text-indigo-600 underline dark:text-indigo-400" href={href(`lab/${l}`)}>{LAB_BY_ID[l].icon} {LAB_BY_ID[l].title}</a></React.Fragment>
-            ))}
-            {stage.id === 'stage-6' && <> · <a className="text-indigo-600 underline dark:text-indigo-400" href={href('interview')}>💬 Luyện phỏng vấn</a></>}
-          </p>
-        )}
-      </section>
+      {section === 1 && (
+        <section className="space-y-3 animate-fadeIn">
+          <p className="text-base text-slate-600 dark:text-slate-400">Bấm thử, quan sát kết quả thay đổi — đây là cách nhanh nhất để “thấm”.</p>
+          <Lab />
+          {(stage.extraLabs || stage.id === 'stage-6') && (
+            <p className="text-sm text-slate-500">
+              Thử thêm:{' '}
+              {stage.extraLabs?.map((l, k) => (
+                <React.Fragment key={l}>{k > 0 && ' · '}<a className="text-indigo-600 underline dark:text-indigo-400" href={href(`lab/${l}`)}>{LAB_BY_ID[l].icon} {LAB_BY_ID[l].title}</a></React.Fragment>
+              ))}
+              {stage.id === 'stage-6' && <> · <a className="text-indigo-600 underline dark:text-indigo-400" href={href('interview')}>💬 Luyện phỏng vấn</a></>}
+            </p>
+          )}
+          <div className="flex justify-between pt-2">
+            <button className="btn-ghost" onClick={() => goSection(0)}><ArrowLeft className="h-4 w-4" /> Xem lại ý chính</button>
+            <button className="btn-primary px-5 py-2.5 text-sm" onClick={() => goSection(2)}>Áp dụng vào việc thật <ArrowRight className="h-4 w-4" /></button>
+          </div>
+        </section>
+      )}
 
-      <SelfCheck key={stage.id} stage={stage} best={api.progress.quizScores[stage.id]} onScore={(n) => api.saveQuiz(stage.id, n)} />
+      {section === 2 && (
+        <section className="space-y-3 animate-fadeIn">
+          <TryNow stage={stage} />
+          <div className="flex justify-between pt-2">
+            <button className="btn-ghost" onClick={() => goSection(1)}><ArrowLeft className="h-4 w-4" /> Thực hành</button>
+            <button className="btn-primary px-5 py-2.5 text-sm" onClick={() => goSection(3)}>Tự kiểm tra <ArrowRight className="h-4 w-4" /></button>
+          </div>
+        </section>
+      )}
 
-      <div className="flex flex-wrap items-center justify-between gap-2 border-t border-slate-200 pt-5 dark:border-slate-800">
-        {prev ? <a className="btn-ghost" href={href(`stage/${prev.id}`)}><ArrowLeft className="h-3.5 w-3.5" /> {prev.title}</a> : <span />}
-        <button onClick={() => api.toggleDone(stage.id)} className={isDone ? 'btn-ghost text-emerald-600' : 'btn-primary bg-emerald-600 hover:bg-emerald-700'}>
-          {isDone ? <><CheckCircle2 className="h-4 w-4" /> Đã xong chặng này</> : <><Circle className="h-4 w-4" /> Đánh dấu đã xong</>}
-        </button>
-        {next ? <a className="btn-ghost" href={href(`stage/${next.id}`)}>{next.title} <ArrowRight className="h-3.5 w-3.5" /></a> : <a className="btn-ghost" href={href('')}>Về lộ trình</a>}
-      </div>
+      {section === 3 && (
+        <section className="space-y-5 animate-fadeIn">
+          <SelfCheck key={stage.id} stage={stage} best={api.progress.quizScores[stage.id]} onScore={(n) => api.saveQuiz(stage.id, n)} />
+          <div className="card flex flex-wrap items-center justify-between gap-3 p-5">
+            <div>
+              <div className="font-bold text-slate-900 dark:text-white">{isDone ? '🎉 Bạn đã hoàn thành chặng này' : 'Xong chặng này chưa?'}</div>
+              <div className="text-sm text-slate-500">{next ? `Tiếp theo: ${next.emoji} ${next.title}` : 'Đây là chặng cuối của lộ trình.'}</div>
+            </div>
+            <div className="flex gap-2">
+              <button onClick={() => api.toggleDone(stage.id)} className={isDone ? 'btn-ghost text-emerald-600' : 'btn-ghost'}>
+                {isDone ? <><CheckCircle2 className="h-4 w-4" /> Đã xong</> : <><Circle className="h-4 w-4" /> Đánh dấu xong</>}
+              </button>
+              {next ? (
+                <a className="btn-primary px-5 py-2.5 text-sm" href={href(`stage/${next.id}`)} onClick={() => !isDone && api.toggleDone(stage.id)}>
+                  Chặng tiếp <ArrowRight className="h-4 w-4" />
+                </a>
+              ) : (
+                <a className="btn-primary px-5 py-2.5 text-sm" href={href('')} onClick={() => !isDone && api.toggleDone(stage.id)}>Về lộ trình</a>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   );
 };
