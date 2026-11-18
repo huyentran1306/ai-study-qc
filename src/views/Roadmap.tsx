@@ -5,6 +5,7 @@ import { LABS, LAB_BY_ID } from '../components/labs/registry';
 import { href } from '../lib/router';
 import { ProgressApi } from '../lib/progress';
 import { Stage } from '../types';
+import { AiExplainer } from '../components/AiExplainer';
 
 // ───────────────────────────── Home: the roadmap ─────────────────────────────
 export const RoadmapView: React.FC<{ api: ProgressApi }> = ({ api }) => {
@@ -14,17 +15,27 @@ export const RoadmapView: React.FC<{ api: ProgressApi }> = ({ api }) => {
   return (
     <div className="mx-auto max-w-3xl space-y-8 px-4 py-10 animate-fadeIn">
       <header className="space-y-3 text-center">
-        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 lg:text-4xl dark:text-white">Lộ trình học AI cho Tester</h1>
+        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 lg:text-4xl dark:text-white">
+          Hiểu AI trong 1 phút.<br />
+          <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">Dùng AI để test trong 6 chặng.</span>
+        </h1>
         <p className="mx-auto max-w-xl text-sm leading-relaxed text-slate-600 dark:text-slate-400">
-          6 chặng, từ con số 0 đến test được sản phẩm AI. Mỗi chặng chỉ gồm những ý cần nắm, 1 bài thực hành và 3 câu tự kiểm tra.
+          Dành cho tester chưa biết gì về AI. Không cần toán, không cần code — xem, bấm thử, rồi áp dụng ngay vào việc.
         </p>
-        <div className="flex items-center justify-center gap-3 pt-1">
+      </header>
+
+      <AiExplainer />
+
+      <div className="flex flex-col items-center gap-2 pt-2 text-center">
+        <h2 className="text-xl font-extrabold text-slate-900 dark:text-white">Lộ trình 6 chặng</h2>
+        <p className="text-xs text-slate-500">Mỗi chặng: vài ý cần nắm · 1 bài thực hành · 1 prompt dùng ngay · 3 câu tự kiểm tra</p>
+        <div className="flex items-center gap-3 pt-1">
           <a href={href(`stage/${next.id}`)} className="btn-primary px-5 py-2.5 text-sm">
             {done.size ? 'Học tiếp' : 'Bắt đầu'} · Chặng {ROADMAP.indexOf(next) + 1} <ArrowRight className="h-4 w-4" />
           </a>
           <span className="text-xs font-semibold text-slate-500">{done.size}/{ROADMAP.length} chặng xong</span>
         </div>
-      </header>
+      </div>
 
       <ol className="relative space-y-4 border-l-2 border-dashed border-indigo-200 pl-6 dark:border-indigo-500/30">
         {ROADMAP.map((s, i) => {
@@ -43,8 +54,8 @@ export const RoadmapView: React.FC<{ api: ProgressApi }> = ({ api }) => {
                       <span className="flex items-center gap-1 text-[11px] text-slate-500"><Clock className="h-3 w-3" /> {s.duration}</span>
                     </div>
                     <p className="mt-1 text-xs leading-relaxed text-slate-600 dark:text-slate-400">{s.goal}</p>
-                    <p className="mt-2 text-[11px] text-slate-500">
-                      {s.points.map((p) => p.t).join(' · ')}
+                    <p className="mt-2 rounded-lg bg-slate-50 px-2.5 py-1.5 text-[11px] italic leading-relaxed text-slate-500 dark:bg-slate-950/60 dark:text-slate-400">
+                      {s.analogy}
                     </p>
                   </div>
                 </div>
@@ -123,6 +134,26 @@ const SelfCheck: React.FC<{ stage: Stage; onScore: (n: number) => void; best?: n
   );
 };
 
+// ───────────────────────────── "Dùng ngay hôm nay" ─────────────────────────────
+const TryNow: React.FC<{ stage: Stage }> = ({ stage }) => {
+  const [copied, setCopied] = useState(false);
+  return (
+    <section className="card overflow-hidden">
+      <div className="flex items-center justify-between gap-2 border-b border-slate-100 px-5 py-3 dark:border-slate-800">
+        <h2 className="font-bold text-slate-900 dark:text-white">⚡ Dùng ngay hôm nay: {stage.tryNow.label}</h2>
+        <button
+          className="btn-primary"
+          onClick={() => { navigator.clipboard?.writeText(stage.tryNow.prompt); setCopied(true); setTimeout(() => setCopied(false), 1500); }}
+        >
+          {copied ? '✔ Đã copy' : '📋 Copy prompt'}
+        </button>
+      </div>
+      <pre className="whitespace-pre-wrap bg-slate-950 px-5 py-4 font-mono text-[12px] leading-relaxed text-indigo-200">{stage.tryNow.prompt}</pre>
+      <p className="px-5 py-2.5 text-[11px] text-slate-500">Dán vào công cụ AI công ty cho phép, thay phần [ … ] bằng dữ liệu của bạn — và nhớ kiểm chứng kết quả.</p>
+    </section>
+  );
+};
+
 // ───────────────────────────── Stage page ─────────────────────────────
 export const StageView: React.FC<{ stageId: string; api: ProgressApi }> = ({ stageId, api }) => {
   const stage = STAGE_BY_ID[stageId];
@@ -143,6 +174,11 @@ export const StageView: React.FC<{ stageId: string; api: ProgressApi }> = ({ sta
         <p className="text-sm text-slate-600 dark:text-slate-400">🎯 {stage.goal}</p>
       </header>
 
+      <div className="rounded-2xl border border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50 p-4 text-sm leading-relaxed text-amber-950 dark:border-amber-500/30 dark:from-amber-500/10 dark:to-orange-500/10 dark:text-amber-100">
+        <span className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">Hiểu nhanh</span>
+        {stage.analogy}
+      </div>
+
       <section className="card p-5">
         <h2 className="mb-3 font-bold text-slate-900 dark:text-white">📌 Cần nắm</h2>
         <ol className="space-y-3">
@@ -158,6 +194,8 @@ export const StageView: React.FC<{ stageId: string; api: ProgressApi }> = ({ sta
         </ol>
         <p className="mt-4 border-t border-slate-100 pt-3 text-[11px] text-slate-500 dark:border-slate-800">Liên quan ISTQB: {stage.istqb}</p>
       </section>
+
+      <TryNow stage={stage} />
 
       <section>
         <h2 className="font-bold text-slate-900 dark:text-white">🧪 Thực hành</h2>

@@ -1,4 +1,4 @@
-export type LabId = 'temperature' | 'prompt-6' | 'red-team' | 'confusion-matrix' | 'metamorphic' | 'bias' | 'dataset-constraint' | 'rag';
+export type LabId = 'temperature' | 'prompt-magic' | 'prompt-6' | 'red-team' | 'confusion-matrix' | 'metamorphic' | 'bias' | 'dataset-constraint' | 'rag';
 
 export interface StageQuiz {
   q: string;
@@ -13,6 +13,10 @@ export interface Stage {
   title: string;
   goal: string;
   duration: string;
+  /** One everyday analogy a total beginner gets instantly */
+  analogy: string;
+  /** A ready-to-copy prompt the learner can use at work today */
+  tryNow: { label: string; prompt: string };
   points: { t: string; d: string }[];
   lab: LabId;
   extraLabs?: LabId[];

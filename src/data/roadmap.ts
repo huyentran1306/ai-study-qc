@@ -12,6 +12,8 @@ export const ROADMAP: Stage[] = [
     title: 'Hiểu AI & LLM ở mức đủ dùng',
     goal: 'Biết AI/ML/LLM là gì và vì sao AI có thể trả lời sai một cách rất tự tin.',
     duration: '1 tuần',
+    analogy: '🧑‍🎓 AI giống một thực tập sinh đã đọc cả internet: nói rất trôi chảy, nhưng không biết gì về dự án của bạn — và khi không biết, nó đoán.',
+    tryNow: { label: 'Nhờ AI giải thích khái niệm', prompt: 'Giải thích cho tôi như người mới vào nghề: [khái niệm, vd. regression testing]. Dùng 1 ví dụ đời thường và 1 ví dụ trong công việc tester. Tối đa 150 chữ.' },
     points: [
       { t: 'AI ⊃ ML ⊃ Deep Learning ⊃ GenAI', d: 'Phần mềm thường chạy theo luật dev viết; ML tự học quy luật từ dữ liệu, nên kết quả mang tính xác suất và có tỉ lệ sai.' },
       { t: 'LLM = máy đoán token kế tiếp', d: 'Văn bản bị chia thành token; model chọn token có xác suất cao để nối tiếp. Nó tối ưu “nghe hợp lý”, không tối ưu “đúng sự thật”.' },
@@ -48,6 +50,8 @@ export const ROADMAP: Stage[] = [
     title: 'Dùng AI để test: viết prompt đúng cách',
     goal: 'Viết được prompt cho ra test case, test data, script dùng được — và biết kiểm chứng chúng.',
     duration: '1–2 tuần',
+    analogy: '📝 Giao việc cho AI giống giao việc cho người mới: nói rõ bối cảnh, yêu cầu và mẫu kết quả thì ít phải làm lại.',
+    tryNow: { label: 'Sinh test case từ user story', prompt: 'Bạn là tester theo chuẩn ISTQB.\nBối cảnh: [tên app, tính năng].\nUser story & AC: [dán nguyên văn].\nNhiệm vụ: viết test case, dùng phân vùng tương đương và giá trị biên.\nRàng buộc: chỉ dựa trên AC; thiếu thông tin thì ghi "CẦN LÀM RÕ".\nĐịnh dạng: bảng ID | Tình huống | Dữ liệu | Kết quả mong đợi | AC liên quan.' },
     points: [
       { t: 'Prompt 6 thành phần', d: 'Role · Context · Instruction · Input data (user story, AC, spec) · Constraints · Output format. Thiếu context/input là nguyên nhân số 1 khiến AI bịa.' },
       { t: 'Thêm 4 yếu tố của QA', d: 'Nguồn sự thật (AC/spec nào), phạm vi coverage, bằng chứng cần có (log, screenshot, response), điều kiện dừng/hỏi lại khi thiếu thông tin.' },
@@ -55,7 +59,8 @@ export const ROADMAP: Stage[] = [
       { t: 'AI giúp được ở cả 3 giai đoạn', d: 'Trước test: soi AC mơ hồ, phân tích impact, traceability. Trong test: sinh dữ liệu, script API/UI, phân loại lỗi. Sau test: viết bug report, tóm tắt kết quả.' },
       { t: 'Luôn kiểm chứng output', d: 'Đối chiếu với AC, chạy thử script, chứng minh test có thể FAIL khi tính năng hỏng. Lưu prompt tốt vào thư viện chung của team.' },
     ],
-    lab: 'prompt-6',
+    lab: 'prompt-magic',
+    extraLabs: ['prompt-6'],
     istqb: 'CT-GenAI ch.2',
     quiz: [
       {
@@ -84,6 +89,8 @@ export const ROADMAP: Stage[] = [
     title: 'Dùng AI an toàn: rủi ro & giới hạn',
     goal: 'Nhận ra lỗi của AI và không làm lộ dữ liệu hay giao nhầm việc cho AI.',
     duration: '1 tuần',
+    analogy: '🚗 AI giống xe có chế độ tự lái: rất tiện, nhưng tay vẫn phải đặt trên vô-lăng.',
+    tryNow: { label: 'Bắt AI tự khai chỗ đoán', prompt: 'Trước khi trả lời, hãy liệt kê: (1) những giả định bạn đang đưa ra, (2) phần nào KHÔNG có trong tài liệu tôi cung cấp. Sau đó mới trả lời và đánh dấu [ĐOÁN] cho những chỗ không có căn cứ.' },
     points: [
       { t: '3 loại lỗi cần nhận ra', d: 'Hallucination: test case cho AC không tồn tại. Reasoning error: sắp thứ tự test sai phụ thuộc. Bias: dữ liệu test lệch (vd. toàn tên/địa chỉ nước ngoài).' },
       { t: 'Bảo vệ dữ liệu', d: 'Không dán mật khẩu, token, dữ liệu khách hàng thật. Che PII trước khi gửi, chỉ gửi phần cần thiết.' },
@@ -120,6 +127,8 @@ export const ROADMAP: Stage[] = [
     title: 'Test hệ thống CÓ AI: tư duy thống kê',
     goal: 'Biết đặt tiêu chí chấp nhận và đo chất lượng cho tính năng AI (chatbot, OCR, gợi ý, chấm điểm…).',
     duration: '1–2 tuần',
+    analogy: '🌦️ Test AI giống kiểm tra dự báo thời tiết: không ai đúng 100%, câu hỏi là đúng bao nhiêu phần trăm và sai ở đâu.',
+    tryNow: { label: 'Viết tiêu chí chấp nhận cho tính năng AI', prompt: 'Tính năng AI: [mô tả, vd. chatbot trả lời chính sách đổi trả].\nĐề xuất 5 acceptance criteria ĐO ĐƯỢC, mỗi tiêu chí gồm: metric, ngưỡng đạt, bộ dữ liệu test cần có, và cách đo. Ưu tiên rủi ro gây hại cho người dùng.' },
     points: [
       { t: 'Không còn “1 input → 1 expected” chắc chắn', d: 'AI có tỉ lệ sai cho phép. Một case fail không nói lên gì; cần bộ test đủ lớn và đại diện cho dữ liệu thật.' },
       { t: 'Acceptance criteria phải đo được', d: 'Metric + ngưỡng + tập dữ liệu (+ sai số). Ví dụ: “≥ 90% câu trả lời đúng theo knowledge base trên bộ 300 câu đại diện”.' },
@@ -156,6 +165,8 @@ export const ROADMAP: Stage[] = [
     title: 'Kỹ thuật test model & dữ liệu',
     goal: 'Có “bộ đồ nghề” khi không biết chính xác expected result của AI.',
     duration: '1–2 tuần',
+    analogy: '⚖️ Không biết đáp án đúng vẫn test được — như kiểm tra cái cân: không biết món đồ nặng bao nhiêu, nhưng chắc chắn thêm đồ vào thì số phải tăng.',
+    tryNow: { label: 'Tìm quan hệ để test khi không có đáp án', prompt: 'Hệ thống: [mô tả model, input, output].\nHãy đề xuất 5 metamorphic relation dạng: "Nếu thay đổi input X như thế này, output phải thay đổi/giữ nguyên thế này". Mỗi cái kèm 1 ví dụ test cụ thể.' },
     points: [
       { t: 'Metamorphic testing', d: 'Không biết đáp án đúng nhưng biết quan hệ: tăng diện tích nhà thì giá không được giảm; đổi mã tin đăng thì giá không đổi. Sinh test mới từ test cũ và kiểm tra quan hệ.' },
       { t: 'Test dữ liệu trước khi test model', d: 'Thiếu giá trị, sai kiểu, ngoài khoảng, trùng lặp, nhãn sai, không đại diện người dùng thật. Dữ liệu kém thì model kém.' },
@@ -193,6 +204,8 @@ export const ROADMAP: Stage[] = [
     title: 'Test ứng dụng LLM thực chiến & đưa AI vào team',
     goal: 'Test được chatbot/RAG/agent ở dự án thật và vận hành AI trong quy trình QA.',
     duration: '1–2 tuần',
+    analogy: '🏭 Đưa AI vào team giống đưa máy mới vào xưởng: cần quy trình, bài kiểm tra định kỳ và người chịu trách nhiệm.',
+    tryNow: { label: 'Sinh bộ câu hỏi test chatbot', prompt: 'Tôi đang test chatbot trả lời dựa trên tài liệu: [mô tả phạm vi].\nTạo 20 câu hỏi test chia nhóm: (a) có đáp án rõ, (b) cần ghép 2 tài liệu, (c) KHÔNG có đáp án, (d) ngoài phạm vi, (e) cố tình gài chỉ dẫn độc hại. Mỗi câu ghi kết quả mong đợi.' },
     points: [
       { t: 'Eval suite = regression test của LLM', d: 'Bộ 50–500 câu hỏi đã duyệt; chấm bằng assertion (chứa/không chứa, JSON hợp lệ), rồi mới đến LLM-as-a-judge có rubric. Chạy lại mỗi khi đổi prompt, model, dữ liệu; gate theo ngưỡng % trong CI.' },
       { t: 'Test RAG', d: 'Câu có đáp án, câu cần ghép 2 tài liệu, câu KHÔNG có đáp án (phải nói “không tìm thấy”), tài liệu mâu thuẫn/cũ, tài liệu chứa chỉ dẫn độc hại.' },

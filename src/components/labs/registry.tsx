@@ -5,6 +5,7 @@ import { MetamorphicLab } from './MetamorphicLab';
 import { DatasetConstraintLab } from './DatasetConstraintLab';
 import { TemperatureLab } from './TemperatureLab';
 import { PromptSixLab } from './PromptSixLab';
+import { PromptMagicLab } from './PromptMagicLab';
 import { RedTeamLab } from './RedTeamLab';
 import { RagLab } from './RagLab';
 import { BiasLab } from './BiasLab';
@@ -19,7 +20,8 @@ export interface LabMeta {
 
 export const LABS: LabMeta[] = [
   { id: 'temperature', icon: '🌡️', title: 'Temperature', desc: 'Vì sao cùng một prompt lại ra kết quả khác nhau.', Component: TemperatureLab },
-  { id: 'prompt-6', icon: '🧩', title: 'Prompt 6 thành phần', desc: 'Lắp ghép prompt và xem điểm đầy đủ.', Component: PromptSixLab },
+  { id: 'prompt-magic', icon: '🪄', title: 'Prompt tệ vs Prompt tốt', desc: 'Bật từng thành phần của prompt và xem câu trả lời của AI thay đổi.', Component: PromptMagicLab },
+  { id: 'prompt-6', icon: '🧩', title: 'Tự viết prompt 6 thành phần', desc: 'Tự gõ prompt của bạn và xem điểm đầy đủ.', Component: PromptSixLab },
   { id: 'red-team', icon: '🎯', title: 'Tấn công chatbot', desc: 'Thử prompt injection trên chatbot giả lập và bật lớp phòng thủ.', Component: RedTeamLab },
   { id: 'confusion-matrix', icon: '🧮', title: 'Confusion Matrix', desc: 'Tính accuracy, precision, recall, F1 và luyện đề.', Component: ConfusionMatrixLab },
   { id: 'metamorphic', icon: '🔁', title: 'Metamorphic Testing', desc: 'Tìm lỗi ẩn trong model định giá nhà mà không cần expected result.', Component: MetamorphicLab },
