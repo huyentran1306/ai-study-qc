@@ -24,7 +24,7 @@ export const FlowMap: React.FC<{ diagram: FlowDiagram }> = ({ diagram }) => {
   return (
     <div className="space-y-3">
       <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-[radial-gradient(circle_at_1px_1px,rgba(99,102,241,.18)_1px,transparent_0)] bg-[length:22px_22px] p-2 dark:border-slate-800 dark:bg-[radial-gradient(circle_at_1px_1px,rgba(129,140,248,.18)_1px,transparent_0)]">
-        <svg viewBox="0 0 1200 440" className="h-auto w-full min-w-[720px] text-slate-400" role="img" aria-label={diagram.title}>
+        <svg viewBox="0 0 1200 440" className="mx-auto h-auto max-h-[560px] w-full min-w-[720px] text-slate-400" role="img" aria-label={diagram.title}>
           <defs>
             <marker id="fm-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
               <path d="M0 0L10 5L0 10z" fill="currentColor" />

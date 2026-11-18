@@ -34,7 +34,7 @@ export default function App() {
       break;
     case 'prompts':
       page = (
-        <div className="mx-auto max-w-4xl space-y-4 px-4 py-8 animate-fadeIn">
+        <div className="w-full space-y-4 px-4 sm:px-6 lg:px-10 xl:px-14 py-8 animate-fadeIn">
           <div>
             <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white">🪄 Prompt mẫu cho QA</h1>
             <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">Copy, điền dữ liệu dự án của bạn, và luôn kiểm chứng kết quả.</p>

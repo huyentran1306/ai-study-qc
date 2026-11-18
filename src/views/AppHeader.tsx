@@ -21,7 +21,7 @@ export const AppHeader: React.FC<Props> = ({ route, progress, isDarkMode, onTogg
   const done = new Set(progress.doneStages);
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/85 backdrop-blur-md dark:border-slate-800 dark:bg-[#0B0F1A]/85">
-      <div className="mx-auto flex h-14 max-w-6xl items-center gap-2 px-4">
+      <div className="flex h-14 w-full items-center gap-2 px-4 sm:px-6 lg:px-10 xl:px-14">
         <a href={href('')} className="mr-2 flex shrink-0 items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 text-white shadow-md shadow-indigo-600/30">
             <Brain className="h-4 w-4" />

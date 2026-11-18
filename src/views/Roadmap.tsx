@@ -15,7 +15,7 @@ export const RoadmapView: React.FC<{ api: ProgressApi }> = ({ api }) => {
   const next = ROADMAP.find((s) => !done.has(s.id)) ?? ROADMAP[0];
 
   return (
-    <div className="mx-auto max-w-5xl space-y-10 px-4 py-12 animate-fadeIn">
+    <div className="w-full space-y-10 px-4 sm:px-6 lg:px-10 xl:px-14 py-12 animate-fadeIn">
       <header className="space-y-3 text-center">
         <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 lg:text-4xl dark:text-white">
           Hiểu AI trong 1 phút.<br />
@@ -39,28 +39,24 @@ export const RoadmapView: React.FC<{ api: ProgressApi }> = ({ api }) => {
         </div>
       </div>
 
-      <ol className="relative space-y-4 border-l-2 border-dashed border-indigo-200 pl-6 dark:border-indigo-500/30">
+      <ol className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {ROADMAP.map((s, i) => {
           const isDone = done.has(s.id);
           return (
-            <li key={s.id} className="relative">
-              <span className={`absolute -left-[37px] top-4 flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ${isDone ? 'bg-emerald-500 text-white' : 'border-2 border-indigo-300 bg-white text-indigo-600 dark:border-indigo-500/50 dark:bg-slate-900 dark:text-indigo-300'}`}>
-                {isDone ? '✓' : i + 1}
-              </span>
-              <a href={href(`stage/${s.id}`)} className="card block p-5 transition hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-md">
-                <div className="flex items-start gap-3">
+            <li key={s.id}>
+              <a href={href(`stage/${s.id}`)} className="card flex h-full flex-col gap-3 p-5 transition hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-md">
+                <div className="flex items-center gap-3">
+                  <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold ${isDone ? 'bg-emerald-500 text-white' : 'border-2 border-indigo-300 bg-white text-indigo-600 dark:border-indigo-500/50 dark:bg-slate-900 dark:text-indigo-300'}`}>
+                    {isDone ? '✓' : i + 1}
+                  </span>
                   <span className="text-3xl">{s.emoji}</span>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <h2 className="text-lg font-bold text-slate-900 dark:text-white">{s.title}</h2>
-                      <span className="flex items-center gap-1 text-xs text-slate-500"><Clock className="h-3 w-3" /> {s.duration}</span>
-                    </div>
-                    <p className="mt-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{s.goal}</p>
-                    <p className="mt-2 rounded-lg bg-slate-50 px-3 py-2 text-sm italic leading-relaxed text-slate-500 dark:bg-slate-950/60 dark:text-slate-400">
-                      {s.analogy}
-                    </p>
-                  </div>
+                  <span className="ml-auto flex items-center gap-1 text-xs text-slate-500"><Clock className="h-3 w-3" /> {s.duration}</span>
                 </div>
+                <h2 className="text-lg font-bold text-slate-900 dark:text-white">{s.title}</h2>
+                <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">{s.goal}</p>
+                <p className="mt-auto rounded-lg bg-slate-50 px-3 py-2 text-sm italic leading-relaxed text-slate-500 dark:bg-slate-950/60 dark:text-slate-400">
+                  {s.analogy}
+                </p>
               </a>
             </li>
           );
@@ -282,7 +278,7 @@ export const StageView: React.FC<{ stageId: string; api: ProgressApi }> = ({ sta
   };
 
   return (
-    <div className="mx-auto max-w-5xl space-y-6 px-4 py-8 animate-fadeIn">
+    <div className="w-full space-y-6 px-4 sm:px-6 lg:px-10 xl:px-14 py-8 animate-fadeIn">
       <a href={href('')} className="inline-flex items-center gap-1 text-sm font-semibold text-slate-500 hover:text-indigo-600"><ArrowLeft className="h-3.5 w-3.5" /> Lộ trình</a>
 
       <header className="space-y-2">
@@ -297,7 +293,7 @@ export const StageView: React.FC<{ stageId: string; api: ProgressApi }> = ({ sta
       </div>
 
       {/* Stepper */}
-      <nav className="sticky top-14 z-30 -mx-4 bg-slate-50/90 px-4 py-2 backdrop-blur dark:bg-[#0B0F1A]/90">
+      <nav className="sticky top-14 z-30 -mx-4 bg-slate-50/90 px-4 py-2 sm:-mx-6 sm:px-6 lg:-mx-10 lg:px-10 xl:-mx-14 xl:px-14 backdrop-blur dark:bg-[#0B0F1A]/90">
         <ol className="grid grid-cols-3 gap-1.5 sm:grid-cols-6 sm:gap-2">
           {SECTIONS.map((sct, k) => (
             <li key={sct.name}>
@@ -409,7 +405,7 @@ export const LabsView: React.FC<{ labId?: string }> = ({ labId }) => {
     const L = lab.Component;
     const stage = ROADMAP.find((s) => s.lab === lab.id || s.extraLabs?.includes(lab.id));
     return (
-      <div className="mx-auto max-w-5xl space-y-3 px-4 py-8 animate-fadeIn">
+      <div className="w-full space-y-3 px-4 sm:px-6 lg:px-10 xl:px-14 py-8 animate-fadeIn">
         <a href={href('labs')} className="inline-flex items-center gap-1 text-xs font-semibold text-slate-500 hover:text-indigo-600"><ArrowLeft className="h-3.5 w-3.5" /> Tất cả bài thực hành</a>
         <L />
         {stage && <p className="text-xs text-slate-500">Thuộc <a className="text-indigo-600 underline" href={href(`stage/${stage.id}`)}>Chặng {ROADMAP.indexOf(stage) + 1}: {stage.title}</a></p>}
@@ -417,12 +413,12 @@ export const LabsView: React.FC<{ labId?: string }> = ({ labId }) => {
     );
   }
   return (
-    <div className="mx-auto max-w-5xl space-y-5 px-4 py-10 animate-fadeIn">
+    <div className="w-full space-y-5 px-4 sm:px-6 lg:px-10 xl:px-14 py-10 animate-fadeIn">
       <div>
         <h1 className="flex items-center gap-2 text-2xl font-extrabold text-slate-900 dark:text-white"><FlaskConical className="h-6 w-6 text-indigo-600" /> Thực hành</h1>
         <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">Chạy ngay trên trình duyệt, không cần cài đặt hay API key.</p>
       </div>
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
         {LABS.map((l) => (
           <a key={l.id} href={href(`lab/${l.id}`)} className="card flex gap-3 p-4 transition hover:border-indigo-300 hover:shadow-md">
             <span className="text-2xl">{l.icon}</span>
