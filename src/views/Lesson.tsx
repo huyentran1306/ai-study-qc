@@ -157,22 +157,22 @@ const PromptTerminal: React.FC<{ stage: Stage }> = ({ stage }) => {
           </li>
         ))}
       </ol>
-      <div className="overflow-hidden rounded-2xl border border-slate-800 bg-slate-950 shadow-2xl shadow-slate-900/20">
-        <div className="flex items-center gap-2 border-b border-white/10 px-4 py-3">
+      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-200/60 dark:border-slate-800 dark:bg-slate-950 dark:shadow-slate-900/20">
+        <div className="flex items-center gap-2 border-b border-slate-200 bg-slate-50 px-4 py-3 dark:border-white/10 dark:bg-transparent">
           <span className="h-3 w-3 rounded-full bg-rose-400" /><span className="h-3 w-3 rounded-full bg-amber-400" /><span className="h-3 w-3 rounded-full bg-emerald-400" />
-          <span className="ml-3 truncate font-mono text-xs text-slate-400">prompt — {stage.tryNow.label}</span>
+          <span className="ml-3 truncate font-mono text-xs text-slate-500 dark:text-slate-400">prompt — {stage.tryNow.label}</span>
           <button
-            className="ml-auto inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-white/10 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-white/20"
+            className="ls-grad ml-auto inline-flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:opacity-90"
             onClick={() => { navigator.clipboard?.writeText(stage.tryNow.prompt); setCopied(true); setTimeout(() => setCopied(false), 1500); }}
           >
             {copied ? <><Check className="h-3.5 w-3.5" /> Đã copy</> : <><ClipboardCopy className="h-3.5 w-3.5" /> Copy</>}
           </button>
         </div>
-        <pre className="whitespace-pre-wrap px-5 py-5 font-mono text-[0.95rem] leading-relaxed text-slate-200 lg:px-6">
-          <span className="ls-text-light select-none">❯ </span>
-          {parts.map((s, k) => (s.startsWith('[') ? <mark key={k} className="rounded bg-amber-400/20 px-1 text-amber-300">{s}</mark> : <React.Fragment key={k}>{s}</React.Fragment>))}
+        <pre className="whitespace-pre-wrap px-5 py-5 font-mono text-[0.95rem] leading-relaxed text-slate-800 lg:px-6 dark:text-slate-200">
+          <span className="ls-text select-none">❯ </span>
+          {parts.map((s, k) => (s.startsWith('[') ? <mark key={k} className="rounded bg-amber-100 px-1 font-semibold text-amber-800 dark:bg-amber-400/20 dark:text-amber-300">{s}</mark> : <React.Fragment key={k}>{s}</React.Fragment>))}
         </pre>
-        <div className="border-t border-white/10 px-5 py-2.5 text-xs text-slate-500">Dùng trong công cụ AI công ty cho phép. Không dán dữ liệu thật của khách hàng.</div>
+        <div className="border-t border-slate-100 px-5 py-2.5 text-xs text-slate-500 dark:border-white/10">Dùng trong công cụ AI công ty cho phép. Không dán dữ liệu thật của khách hàng.</div>
       </div>
     </div>
   );
@@ -242,30 +242,31 @@ const Quiz: React.FC<{ stage: Stage; best?: number; onScore: (n: number) => void
 };
 
 const CheatSheet: React.FC<{ stage: Stage; remember: string[] }> = ({ stage, remember }) => (
-  <div className="relative overflow-hidden rounded-3xl bg-slate-950 p-6 text-white lg:p-8">
-    <div className="ls-blob pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full opacity-40 blur-3xl" />
+  <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 text-slate-900 shadow-sm lg:p-8 dark:border-transparent dark:bg-slate-950 dark:text-white">
+    <div className="ls-grad absolute inset-x-0 top-0 h-1" />
+    <div className="ls-blob pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full opacity-[.12] blur-3xl dark:opacity-40" />
     <div className="relative grid gap-8 lg:grid-cols-2">
       <div>
-        <div className="ls-text-light mb-3 text-xs font-bold uppercase tracking-[.18em]">📌 Tóm tắt 1 trang</div>
+        <div className="ls-text mb-3 text-xs font-bold uppercase tracking-[.18em]">📌 Tóm tắt 1 trang</div>
         <ul className="space-y-2.5">
           {stage.points.map((p) => (
             <li key={p.t} className="flex gap-2.5">
-              <CheckCircle2 className="ls-text-light mt-0.5 h-5 w-5 shrink-0" />
-              <span><b className="text-white">{p.t}</b><span className="block text-sm leading-relaxed text-slate-400">{p.d}</span></span>
+              <CheckCircle2 className="ls-text mt-0.5 h-5 w-5 shrink-0" />
+              <span><b className="text-slate-900 dark:text-white">{p.t}</b><span className="block text-sm leading-relaxed text-slate-500 dark:text-slate-400">{p.d}</span></span>
             </li>
           ))}
         </ul>
       </div>
       <div className="space-y-5">
         <div>
-          <div className="ls-text-light mb-3 text-xs font-bold uppercase tracking-[.18em]">🧠 Câu cần thuộc</div>
+          <div className="ls-text mb-3 text-xs font-bold uppercase tracking-[.18em]">🧠 Câu cần thuộc</div>
           <div className="flex flex-wrap gap-2">
-            {remember.map((r) => <span key={r} className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm font-semibold">{r}</span>)}
+            {remember.map((r) => <span key={r} className="ls-tint ls-ring rounded-xl border px-3 py-2 text-sm font-semibold">{r}</span>)}
           </div>
         </div>
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-          <div className="mb-1 text-xs font-bold uppercase tracking-[.18em] text-amber-300">💡 Hiểu nhanh</div>
-          <p className="leading-relaxed text-slate-200">{stage.analogy}</p>
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 dark:border-white/10 dark:bg-white/5">
+          <div className="mb-1 text-xs font-bold uppercase tracking-[.18em] text-amber-600 dark:text-amber-300">💡 Hiểu nhanh</div>
+          <p className="leading-relaxed text-amber-950 dark:text-slate-200">{stage.analogy}</p>
         </div>
       </div>
     </div>
@@ -328,21 +329,21 @@ export const StageView: React.FC<{ stageId: string; api: ProgressApi }> = ({ sta
       </div>
 
       {/* ── HERO ── */}
-      <section className="relative overflow-hidden bg-slate-950 text-white">
+      <section className="relative overflow-hidden border-b border-slate-200 bg-white text-slate-900 dark:border-transparent dark:bg-slate-950 dark:text-white">
         <div className="ls-dots pointer-events-none absolute inset-0 opacity-60" />
-        <div className="ls-blob pointer-events-none absolute -left-32 -top-40 h-[28rem] w-[28rem] rounded-full opacity-50 blur-3xl" />
-        <div className="ls-blob2 pointer-events-none absolute -bottom-48 right-0 h-[30rem] w-[30rem] rounded-full opacity-40 blur-3xl" />
+        <div className="ls-blob pointer-events-none absolute -left-32 -top-40 h-[28rem] w-[28rem] rounded-full opacity-[.18] blur-3xl dark:opacity-50" />
+        <div className="ls-blob2 pointer-events-none absolute -bottom-48 right-0 h-[30rem] w-[30rem] rounded-full opacity-[.16] blur-3xl dark:opacity-40" />
         <span className="ls-hero-num pointer-events-none absolute -right-4 -top-10 hidden select-none lg:block">{pad(idx + 1)}</span>
 
         <div className={`relative ${px} pb-10 pt-6 lg:pb-14`}>
           <nav className="mb-8 flex flex-wrap items-center gap-2 text-sm">
-            <a href={href('')} className="inline-flex items-center gap-1 font-semibold text-slate-400 hover:text-white"><ArrowLeft className="h-3.5 w-3.5" /> Lộ trình</a>
-            <span className="text-slate-600">/</span>
+            <a href={href('')} className="inline-flex items-center gap-1 font-semibold text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"><ArrowLeft className="h-3.5 w-3.5" /> Lộ trình</a>
+            <span className="text-slate-300 dark:text-slate-600">/</span>
             <div className="flex gap-1.5">
               {ROADMAP.map((s, k) => (
                 <a key={s.id} href={href(`stage/${s.id}`)} title={`Chặng ${k + 1}: ${s.title}`}
                   className={`flex h-7 min-w-7 items-center justify-center rounded-lg px-1.5 font-mono text-xs font-bold transition ${
-                    s.id === stage.id ? 'ls-grad text-white shadow-lg' : api.progress.doneStages.includes(s.id) ? 'bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30' : 'bg-white/10 text-slate-400 hover:bg-white/20 hover:text-white'
+                    s.id === stage.id ? 'ls-grad text-white shadow-lg' : api.progress.doneStages.includes(s.id) ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200 dark:bg-emerald-500/20 dark:text-emerald-300 dark:hover:bg-emerald-500/30' : 'border border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:text-slate-900 dark:border-transparent dark:bg-white/10 dark:text-slate-400 dark:hover:bg-white/20 dark:hover:text-white'
                   }`}>
                   {api.progress.doneStages.includes(s.id) && s.id !== stage.id ? '✓' : k + 1}
                 </a>
@@ -353,11 +354,11 @@ export const StageView: React.FC<{ stageId: string; api: ProgressApi }> = ({ sta
           <div className="grid items-end gap-8 lg:grid-cols-[minmax(0,1fr)_400px]">
             <div className="space-y-5">
               <div className="flex items-center gap-4">
-                <span className="flex h-16 w-16 items-center justify-center rounded-2xl border border-white/15 bg-white/10 text-4xl shadow-xl backdrop-blur">{stage.emoji}</span>
-                <span className="ls-text-light text-sm font-bold uppercase tracking-[.2em]">Chặng {pad(idx + 1)} / {pad(ROADMAP.length)}</span>
+                <span className="ls-tint flex h-16 w-16 items-center justify-center rounded-2xl border border-slate-200 text-4xl shadow-lg shadow-slate-200/60 backdrop-blur dark:border-white/15 dark:shadow-xl dark:shadow-black/30">{stage.emoji}</span>
+                <span className="ls-text text-sm font-bold uppercase tracking-[.2em]">Chặng {pad(idx + 1)} / {pad(ROADMAP.length)}</span>
               </div>
               <h1 className="max-w-4xl text-3xl font-black leading-[1.1] tracking-tight sm:text-4xl xl:text-5xl">{stage.title}</h1>
-              <p className="max-w-3xl text-lg leading-relaxed text-slate-300">🎯 {stage.goal}</p>
+              <p className="max-w-3xl text-lg leading-relaxed text-slate-600 dark:text-slate-300">🎯 {stage.goal}</p>
               <div className="flex flex-wrap gap-2 text-sm">
                 <span className="ls-chip"><Clock className="h-3.5 w-3.5" /> {stage.duration}</span>
                 <span className="ls-chip">📖 {stage.points.length} ý chính</span>
@@ -369,13 +370,13 @@ export const StageView: React.FC<{ stageId: string; api: ProgressApi }> = ({ sta
               </button>
             </div>
 
-            <div className="rounded-3xl border border-white/10 bg-white/[.06] p-5 backdrop-blur-md">
-              <div className="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-[.18em] text-amber-300"><Lightbulb className="h-4 w-4" /> Hiểu trong 1 câu</div>
-              <p className="text-lg leading-relaxed text-slate-100">{stage.analogy}</p>
-              <div className="mt-5 flex items-center gap-4 border-t border-white/10 pt-4">
-                <Ring value={seen.size} total={SECTIONS.length} size={56} light />
-                <div className="text-sm text-slate-300">
-                  <div className="font-semibold text-white">{isDone ? '🎉 Đã hoàn thành' : 'Tiến độ chặng này'}</div>
+            <div className="rounded-3xl border border-slate-200 bg-white/80 p-5 shadow-xl shadow-slate-200/60 backdrop-blur-md dark:border-white/10 dark:bg-white/[.06] dark:shadow-none">
+              <div className="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-[.18em] text-amber-600 dark:text-amber-300"><Lightbulb className="h-4 w-4" /> Hiểu trong 1 câu</div>
+              <p className="text-lg leading-relaxed text-slate-800 dark:text-slate-100">{stage.analogy}</p>
+              <div className="mt-5 flex items-center gap-4 border-t border-slate-100 pt-4 dark:border-white/10">
+                <Ring value={seen.size} total={SECTIONS.length} size={56} />
+                <div className="text-sm text-slate-500 dark:text-slate-300">
+                  <div className="font-semibold text-slate-900 dark:text-white">{isDone ? '🎉 Đã hoàn thành' : 'Tiến độ chặng này'}</div>
                   Đã xem {seen.size}/{SECTIONS.length} phần
                 </div>
               </div>

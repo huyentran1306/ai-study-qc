@@ -14,7 +14,7 @@ export default function App() {
   const api = useProgress();
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
     const saved = localStorage.getItem(THEME_KEY);
-    return saved ? saved === 'dark' : window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
+    return saved === 'dark'; // mặc định: sáng
   });
 
   useEffect(() => {
