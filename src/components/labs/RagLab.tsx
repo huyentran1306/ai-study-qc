@@ -92,7 +92,7 @@ export const RagLab: React.FC = () => {
     <LabShell icon="📚" title="RAG Pipeline Lab — Chunk → Retrieve → Prompt" subtitle="Retriever từ vựng đơn giản (BM25-lite) thay cho embedding để chạy offline. Đủ để thấy các điểm hỏng: miss, conflicting docs, indirect injection." badge="CT-GenAI 4.1.2">
       <div className="flex flex-wrap gap-1">
         {SUGGESTED.map((s) => (
-          <button key={s} onClick={() => setQ(s)} className={`rounded-lg border px-2 py-1 text-[10px] ${q === s ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-500/10' : 'border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900'}`}>{s}</button>
+          <button key={s} onClick={() => setQ(s)} className={`rounded-lg border px-2 py-1 text-xs ${q === s ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-500/10' : 'border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900'}`}>{s}</button>
         ))}
       </div>
       <div className="mt-2 grid gap-2 sm:grid-cols-[1fr_auto_auto_auto]">
@@ -107,17 +107,17 @@ export const RagLab: React.FC = () => {
           <div className="mb-1 font-bold">① Retrieval ({chunks.length} chunks)</div>
           <div className="max-h-64 space-y-1.5 overflow-auto">
             {ranked.slice(0, 6).map((r) => (
-              <div key={`${r.c.doc.id}-${r.c.idx}`} className={`rounded-lg border p-2 text-[11px] ${topKeys.has(`${r.c.doc.id}-${r.c.idx}`) ? 'border-indigo-400 bg-indigo-50 dark:border-indigo-500/50 dark:bg-indigo-500/10' : 'border-slate-200 bg-white opacity-60 dark:border-slate-800 dark:bg-slate-900'}`}>
-                <div className="flex justify-between font-mono text-[10px]"><b>{r.c.doc.id}#{r.c.idx} · {r.c.doc.title}</b><span>score {r.score.toFixed(2)}</span></div>
+              <div key={`${r.c.doc.id}-${r.c.idx}`} className={`rounded-lg border p-2 text-xs ${topKeys.has(`${r.c.doc.id}-${r.c.idx}`) ? 'border-indigo-400 bg-indigo-50 dark:border-indigo-500/50 dark:bg-indigo-500/10' : 'border-slate-200 bg-white opacity-60 dark:border-slate-800 dark:bg-slate-900'}`}>
+                <div className="flex justify-between font-mono text-xs"><b>{r.c.doc.id}#{r.c.idx} · {r.c.doc.title}</b><span>score {r.score.toFixed(2)}</span></div>
                 <div className="mt-0.5">{r.c.text}</div>
-                {r.hits.length > 0 && <div className="mt-0.5 font-mono text-[10px] text-indigo-600">match: {r.hits.join(', ')}</div>}
+                {r.hits.length > 0 && <div className="mt-0.5 font-mono text-xs text-indigo-600">match: {r.hits.join(', ')}</div>}
               </div>
             ))}
           </div>
         </div>
         <div>
           <div className="mb-1 font-bold">② Prompt gửi LLM</div>
-          <pre className="max-h-64 overflow-auto whitespace-pre-wrap rounded-xl bg-slate-950 p-3 font-mono text-[10px] text-indigo-200">{prompt}</pre>
+          <pre className="max-h-64 overflow-auto whitespace-pre-wrap rounded-xl bg-slate-950 p-3 font-mono text-xs text-indigo-200">{prompt}</pre>
         </div>
       </div>
       <p className={`mt-3 rounded-xl p-3 ${tones[verdict.tone]}`}>{verdict.text}</p>

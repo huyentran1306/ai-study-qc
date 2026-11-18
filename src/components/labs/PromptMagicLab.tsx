@@ -68,19 +68,19 @@ export const PromptMagicLab: React.FC = () => {
                 </span>
                 <span>
                   <span className="font-bold text-slate-900 dark:text-white">{i.icon} {i.name}</span>
-                  <span className="mt-0.5 block text-[11px] text-slate-500 dark:text-slate-400">{active ? `✨ ${i.effect}` : i.text}</span>
+                  <span className="mt-0.5 block text-xs text-slate-500 dark:text-slate-400">{active ? `✨ ${i.effect}` : i.text}</span>
                 </span>
               </button>
             );
           })}
-          <button className="text-[11px] text-indigo-600 underline" onClick={() => setOn(on.size === INGREDIENTS.length ? new Set() : new Set(INGREDIENTS.map((i) => i.k)))}>
+          <button className="text-xs text-indigo-600 underline" onClick={() => setOn(on.size === INGREDIENTS.length ? new Set() : new Set(INGREDIENTS.map((i) => i.k)))}>
             {on.size === INGREDIENTS.length ? 'Tắt hết' : 'Bật hết'}
           </button>
         </div>
 
         <div className="space-y-3">
-          <div className="rounded-xl bg-slate-950 p-3 font-mono text-[11px] leading-relaxed text-indigo-200">
-            <div className="mb-1 text-[10px] uppercase tracking-wider text-slate-500">Prompt bạn gửi</div>
+          <div className="rounded-xl bg-slate-950 p-3 font-mono text-xs leading-relaxed text-indigo-200">
+            <div className="mb-1 text-xs uppercase tracking-wider text-slate-500">Prompt bạn gửi</div>
             <pre className="whitespace-pre-wrap">{prompt}</pre>
           </div>
 
@@ -92,13 +92,13 @@ export const PromptMagicLab: React.FC = () => {
           </div>
 
           <div key={[...on].sort().join()} className="animate-fadeIn rounded-xl border border-slate-200 bg-white p-3 dark:border-slate-800 dark:bg-slate-900">
-            <div className="mb-2 flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-slate-500">
+            <div className="mb-2 flex items-center justify-between text-xs font-bold uppercase tracking-wider text-slate-500">
               <span>🤖 AI trả lời</span>
               {fakes > 0 && <span className="rounded-full bg-rose-100 px-2 py-0.5 text-rose-700 dark:bg-rose-500/20 dark:text-rose-300">{fakes} ý bịa</span>}
             </div>
             {on.has('format') ? (
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-[11px]">
+                <table className="w-full text-left text-xs">
                   <thead className="text-slate-500"><tr><th className="py-1 pr-2">ID</th>{on.has('role') && <th className="pr-2">Kỹ thuật</th>}<th className="pr-2">Tình huống</th><th className="pr-2">Dữ liệu</th><th>Kết quả mong đợi</th></tr></thead>
                   <tbody>
                     {rows.map((r) => (
@@ -125,11 +125,11 @@ export const PromptMagicLab: React.FC = () => {
               </p>
             )}
             {on.has('constraints') && on.has('context') && (
-              <p className="mt-2 rounded-lg bg-amber-50 px-2 py-1.5 text-[11px] text-amber-800 dark:bg-amber-500/10 dark:text-amber-300">❓ CẦN LÀM RÕ: AC chưa nói về phí chuyển khoản và hạn mức theo ngày.</p>
+              <p className="mt-2 rounded-lg bg-amber-50 px-2 py-1.5 text-xs text-amber-800 dark:bg-amber-500/10 dark:text-amber-300">❓ CẦN LÀM RÕ: AC chưa nói về phí chuyển khoản và hạn mức theo ngày.</p>
             )}
           </div>
 
-          <p className="text-[11px] text-slate-500 dark:text-slate-400">
+          <p className="text-xs text-slate-500 dark:text-slate-400">
             {level === 0 && '👉 Bắt đầu bằng cách bật “Bối cảnh & yêu cầu” — thay đổi lớn nhất nằm ở đây.'}
             {level > 0 && level < 5 && '👉 Bật tiếp các thành phần còn lại để thấy câu trả lời tốt dần lên.'}
             {level === 5 && '🎉 Đây là prompt đầy đủ. Nhưng vẫn phải đối chiếu với AC trước khi dùng!'}

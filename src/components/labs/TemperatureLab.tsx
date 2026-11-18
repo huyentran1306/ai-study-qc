@@ -68,7 +68,7 @@ export const TemperatureLab: React.FC = () => {
           </button>
         ))}
       </div>
-      <p className="mt-3 rounded-xl bg-slate-900 p-3 font-mono text-[11px] text-emerald-300">› {PROMPTS[pi].prompt}<span className="animate-pulse">▌</span></p>
+      <p className="mt-3 rounded-xl bg-slate-900 p-3 font-mono text-xs text-emerald-300">› {PROMPTS[pi].prompt}<span className="animate-pulse">▌</span></p>
 
       <div className="mt-3 grid gap-3 sm:grid-cols-2">
         <label>Temperature: <b className="font-mono">{t.toFixed(2)}</b>
@@ -82,11 +82,11 @@ export const TemperatureLab: React.FC = () => {
       <div className="mt-3 space-y-1.5">
         {tokens.map((tok, i) => (
           <div key={tok} className={`flex items-center gap-2 ${kept.has(i) ? '' : 'opacity-30'}`}>
-            <span className="w-44 shrink-0 truncate font-mono text-[11px]">{tok}</span>
+            <span className="w-44 shrink-0 truncate font-mono text-xs">{tok}</span>
             <div className="h-4 flex-1 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
               <div className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 transition-all" style={{ width: `${(probs[i] * 100).toFixed(1)}%` }} />
             </div>
-            <span className="w-14 text-right font-mono text-[11px]">{(probs[i] * 100).toFixed(1)}%</span>
+            <span className="w-14 text-right font-mono text-xs">{(probs[i] * 100).toFixed(1)}%</span>
           </div>
         ))}
       </div>
@@ -98,11 +98,11 @@ export const TemperatureLab: React.FC = () => {
       {samples.length > 0 && (
         <div className="mt-2 flex flex-wrap gap-1.5">
           {samples.map((s, i) => (
-            <span key={i} className="rounded-lg border border-indigo-200 bg-white px-2 py-1 font-mono text-[11px] dark:border-indigo-500/30 dark:bg-slate-900">{s}</span>
+            <span key={i} className="rounded-lg border border-indigo-200 bg-white px-2 py-1 font-mono text-xs dark:border-indigo-500/30 dark:bg-slate-900">{s}</span>
           ))}
         </div>
       )}
-      <p className="mt-3 text-[11px] leading-relaxed text-slate-500 dark:text-slate-400">
+      <p className="mt-3 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
         Temperature → 0: gần như luôn chọn token xác suất cao nhất (ổn định, hợp sinh script). Temperature cao: token “lạ” có cơ hội → đa dạng nhưng dễ bịa. Top-p loại bỏ đuôi phân phối xác suất thấp.
       </p>
     </LabShell>

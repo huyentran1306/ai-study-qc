@@ -81,8 +81,8 @@ export const RedTeamLab: React.FC = () => {
           <div className="h-72 space-y-2 overflow-y-auto rounded-xl border border-slate-200 bg-white p-3 dark:border-slate-800 dark:bg-slate-900">
             {msgs.map((m, i) => (
               <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[85%] whitespace-pre-wrap rounded-2xl px-3 py-2 text-[11px] ${m.role === 'user' ? 'bg-indigo-600 text-white' : m.ok ? 'border border-rose-300 bg-rose-50 text-rose-900 dark:border-rose-500/40 dark:bg-rose-500/10 dark:text-rose-200' : m.tag ? 'border border-emerald-300 bg-emerald-50 text-emerald-900 dark:border-emerald-500/40 dark:bg-emerald-500/10 dark:text-emerald-200' : 'bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-200'}`}>
-                  {m.tag && <span className="mb-1 block text-[9px] font-bold uppercase tracking-wider opacity-70">{m.ok ? '💥 Tấn công thành công' : '🛡️ Bị chặn'} · {m.tag}</span>}
+                <div className={`max-w-[85%] whitespace-pre-wrap rounded-2xl px-3 py-2 text-xs ${m.role === 'user' ? 'bg-indigo-600 text-white' : m.ok ? 'border border-rose-300 bg-rose-50 text-rose-900 dark:border-rose-500/40 dark:bg-rose-500/10 dark:text-rose-200' : m.tag ? 'border border-emerald-300 bg-emerald-50 text-emerald-900 dark:border-emerald-500/40 dark:bg-emerald-500/10 dark:text-emerald-200' : 'bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-200'}`}>
+                  {m.tag && <span className="mb-1 block text-[0.65rem] font-bold uppercase tracking-wider opacity-70">{m.ok ? '💥 Tấn công thành công' : '🛡️ Bị chặn'} · {m.tag}</span>}
                   {m.text}
                 </div>
               </div>
@@ -95,7 +95,7 @@ export const RedTeamLab: React.FC = () => {
           </div>
           <div className="mt-2 flex flex-wrap gap-1">
             {ATTACKS.map((a) => (
-              <button key={a.id} className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-[10px] hover:border-indigo-400 dark:border-slate-700 dark:bg-slate-900" onClick={() => send(a.example)} title={a.example}>
+              <button key={a.id} className="rounded-lg border border-slate-200 bg-white px-2 py-1 text-xs hover:border-indigo-400 dark:border-slate-700 dark:bg-slate-900" onClick={() => send(a.example)} title={a.example}>
                 💡 {a.name}
               </button>
             ))}
@@ -106,7 +106,7 @@ export const RedTeamLab: React.FC = () => {
           <div className="rounded-xl border border-slate-200 bg-white p-3 dark:border-slate-800 dark:bg-slate-900">
             <div className="mb-2 font-bold">🏴‍☠️ Kỹ thuật đã khai thác: {found.length}/{ATTACKS.length}</div>
             {ATTACKS.map((a) => (
-              <div key={a.id} className={`flex justify-between text-[11px] ${found.includes(a.id) ? 'text-rose-600 dark:text-rose-400' : 'text-slate-400'}`}>
+              <div key={a.id} className={`flex justify-between text-xs ${found.includes(a.id) ? 'text-rose-600 dark:text-rose-400' : 'text-slate-400'}`}>
                 <span>{found.includes(a.id) ? '●' : '○'} {a.name}</span><span className="font-mono">{a.owasp}</span>
               </div>
             ))}
@@ -114,7 +114,7 @@ export const RedTeamLab: React.FC = () => {
           <div className="rounded-xl border border-slate-200 bg-white p-3 dark:border-slate-800 dark:bg-slate-900">
             <div className="mb-2 font-bold">🛡️ Blue Team defenses {blocked > 0 && <span className="text-emerald-600">· chặn {blocked}</span>}</div>
             {DEFENSES.map((d) => (
-              <label key={d.id} className="mb-1.5 flex cursor-pointer items-start gap-2 text-[11px]">
+              <label key={d.id} className="mb-1.5 flex cursor-pointer items-start gap-2 text-xs">
                 <input type="checkbox" className="mt-0.5 accent-emerald-600" checked={defs.includes(d.id)} onChange={() => setDefs((s) => (s.includes(d.id) ? s.filter((x) => x !== d.id) : [...s, d.id]))} />
                 <span><b>{d.name}</b><span className="block text-slate-500">{d.desc}</span></span>
               </label>
@@ -122,7 +122,7 @@ export const RedTeamLab: React.FC = () => {
           </div>
         </div>
       </div>
-      <p className="mt-3 text-[11px] text-slate-500 dark:text-slate-400">
+      <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
         Bài học: không có lớp phòng thủ đơn lẻ nào chặn được mọi thứ (vd. input filter không bắt được encoding; output filter không bắt được tấn công từng ký tự). Biện pháp mạnh nhất là <b>không để secret trong tầm với của model</b>. Sau buổi red teaming, các prompt thành công được đưa vào <b>dataset</b> để khắc phục và làm regression test.
       </p>
     </LabShell>

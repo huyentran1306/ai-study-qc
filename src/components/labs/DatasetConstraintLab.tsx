@@ -70,7 +70,7 @@ export const DatasetConstraintLab: React.FC = () => {
   return (
     <LabShell icon="🧹" title="Dataset Constraint Testing Lab" subtitle="Dataset có 8 loại lỗi cài sẵn. Bật từng constraint để tìm chúng." badge="CT-AI 5.1.5">
       <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
-        <table className="w-full text-left font-mono text-[11px]">
+        <table className="w-full text-left font-mono text-xs">
           <thead className="bg-slate-100 dark:bg-slate-800">
             <tr>{['id', 'age', 'income', 'loc', 'loc_defect', 'label'].map((h) => <th key={h} className="p-2">{h}</th>)}</tr>
           </thead>
@@ -93,7 +93,7 @@ export const DatasetConstraintLab: React.FC = () => {
         {CONSTRAINTS.map((c) => (
           <label key={c.id} className={`flex cursor-pointer items-start gap-2 rounded-xl border p-2.5 ${on.includes(c.id) ? 'border-indigo-400 bg-indigo-50 dark:border-indigo-500/60 dark:bg-indigo-500/10' : 'border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900'}`}>
             <input type="checkbox" className="mt-0.5 accent-indigo-600" checked={on.includes(c.id)} onChange={() => setOn((s) => (s.includes(c.id) ? s.filter((x) => x !== c.id) : [...s, c.id]))} />
-            <span><span className="chip mr-1 border-slate-200 bg-slate-100 text-slate-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">{c.group}</span><b>{c.name}</b><span className="block font-mono text-[10px] text-slate-500">{c.rule}</span></span>
+            <span><span className="chip mr-1 border-slate-200 bg-slate-100 text-slate-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">{c.group}</span><b>{c.name}</b><span className="block font-mono text-xs text-slate-500">{c.rule}</span></span>
           </label>
         ))}
       </div>
@@ -101,7 +101,7 @@ export const DatasetConstraintLab: React.FC = () => {
       {results.length > 0 && (
         <div className="mt-3 space-y-1.5">
           {results.map(({ c, ids, note }) => (
-            <div key={c.id} className={`rounded-lg p-2 font-mono text-[11px] ${ids.length ? 'bg-rose-50 text-rose-800 dark:bg-rose-500/10 dark:text-rose-300' : 'bg-emerald-50 text-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-300'}`}>
+            <div key={c.id} className={`rounded-lg p-2 font-mono text-xs ${ids.length ? 'bg-rose-50 text-rose-800 dark:bg-rose-500/10 dark:text-rose-300' : 'bg-emerald-50 text-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-300'}`}>
               {ids.length ? '❌' : '✅'} [{c.name}] {ids.length ? `${[...new Set(ids)].join(', ')} — ${note}` : 'Không vi phạm'}
             </div>
           ))}

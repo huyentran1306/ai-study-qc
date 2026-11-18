@@ -57,7 +57,7 @@ export const BiasLab: React.FC = () => {
         <button className="btn-primary" onClick={run}>▶ Chạy counterfactual</button>
       </div>
 
-      <ol className="mt-3 list-decimal space-y-0.5 pl-5 text-[11px] text-slate-500 dark:text-slate-400">
+      <ol className="mt-3 list-decimal space-y-0.5 pl-5 text-xs text-slate-500 dark:text-slate-400">
         <li>Xác định thuộc tính nhạy cảm → 2. Sinh counterfactual (giữ nguyên thu nhập, nợ, thâm niên) → 3. Lấy output model → 4. Phân tích nhiều kết quả.</li>
       </ol>
 
@@ -74,7 +74,7 @@ export const BiasLab: React.FC = () => {
               ? `❌ Có ${res.flips} hồ sơ đổi kết quả chỉ vì thay đổi ${attr === 'gender' ? 'giới tính' : 'tuổi'} — dấu hiệu bias. ${res.total < 100 ? 'Với cỡ mẫu nhỏ, hãy chạy thêm để chắc chắn có ý nghĩa thống kê.' : 'Cỡ mẫu đủ lớn để kết luận và báo cáo defect kèm bằng chứng.'}`
               : '✅ Không phát hiện khác biệt trong lần chạy này. Với cỡ mẫu nhỏ, bias có thể chưa lộ — tăng số hồ sơ.'}
           </p>
-          <p className="text-[11px] text-slate-500 dark:text-slate-400">
+          <p className="text-xs text-slate-500 dark:text-slate-400">
             Lưu ý từ syllabus: counterfactual phải <b>thực tế</b> (vd. đổi tuổi 40 → 60 nhưng vẫn giữ “thâm niên 30 năm” có thể phi lý), và có thể kiểm tra <b>tổ hợp</b> thuộc tính (Nữ + trên 55) để lộ bias ẩn.
           </p>
         </div>

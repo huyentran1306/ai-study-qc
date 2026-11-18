@@ -17,8 +17,8 @@ export const LabShell: React.FC<LabShellProps> = ({ icon, title, subtitle, badge
           {icon}
         </div>
         <div>
-          <h4 className="text-sm font-bold text-slate-900 dark:text-white">{title}</h4>
-          {subtitle && <p className="mt-0.5 text-[11px] leading-relaxed text-slate-500 dark:text-slate-400">{subtitle}</p>}
+          <h4 className="text-lg font-bold text-slate-900 dark:text-white">{title}</h4>
+          {subtitle && <p className="mt-0.5 text-sm leading-relaxed text-slate-500 dark:text-slate-400">{subtitle}</p>}
         </div>
       </div>
       {badge && (
@@ -27,7 +27,7 @@ export const LabShell: React.FC<LabShellProps> = ({ icon, title, subtitle, badge
         </span>
       )}
     </div>
-    <div className="text-xs text-slate-700 dark:text-slate-300">{children}</div>
+    <div className="text-sm text-slate-700 dark:text-slate-300">{children}</div>
   </div>
 );
 
@@ -45,9 +45,9 @@ export const Stat: React.FC<{ label: string; value: string; hint?: string; tone?
   };
   return (
     <div className="rounded-xl border border-slate-200 bg-white p-3 dark:border-slate-800 dark:bg-slate-900">
-      <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">{label}</div>
+      <div className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">{label}</div>
       <div className={`mt-1 font-mono text-xl font-bold ${tones[tone]}`}>{value}</div>
-      {hint && <div className="mt-0.5 font-mono text-[10px] text-slate-400">{hint}</div>}
+      {hint && <div className="mt-0.5 font-mono text-xs text-slate-400">{hint}</div>}
     </div>
   );
 };

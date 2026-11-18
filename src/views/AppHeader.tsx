@@ -21,7 +21,7 @@ export const AppHeader: React.FC<Props> = ({ route, progress, isDarkMode, onTogg
   const done = new Set(progress.doneStages);
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/85 backdrop-blur-md dark:border-slate-800 dark:bg-[#0B0F1A]/85">
-      <div className="mx-auto flex h-14 max-w-5xl items-center gap-2 px-4">
+      <div className="mx-auto flex h-14 max-w-6xl items-center gap-2 px-4">
         <a href={href('')} className="mr-2 flex shrink-0 items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 text-white shadow-md shadow-indigo-600/30">
             <Brain className="h-4 w-4" />
@@ -33,7 +33,7 @@ export const AppHeader: React.FC<Props> = ({ route, progress, isDarkMode, onTogg
             <a
               key={n.to}
               href={href(n.to)}
-              className={`rounded-lg px-2.5 py-1.5 text-xs font-semibold transition ${
+              className={`whitespace-nowrap rounded-lg px-2 py-1.5 text-xs font-semibold sm:px-3 sm:text-sm transition ${
                 n.match.includes(route.name)
                   ? 'bg-indigo-600 text-white'
                   : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'

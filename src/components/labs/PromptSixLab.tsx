@@ -70,7 +70,7 @@ export const PromptSixLab: React.FC = () => {
               <label key={p} className="block">
                 <span className="flex items-center justify-between font-bold">
                   {META[p].label}
-                  <span className={`font-mono text-[10px] ${s === 2 ? 'text-emerald-600' : s === 1 ? 'text-amber-600' : 'text-slate-400'}`}>{s === 2 ? '✔ tốt' : s === 1 ? '~ cần cụ thể hơn' : '— trống'}</span>
+                  <span className={`font-mono text-xs ${s === 2 ? 'text-emerald-600' : s === 1 ? 'text-amber-600' : 'text-slate-400'}`}>{s === 2 ? '✔ tốt' : s === 1 ? '~ cần cụ thể hơn' : '— trống'}</span>
                 </span>
                 <textarea rows={p === 'input' ? 3 : 2} className="input mt-1" placeholder={META[p].hint} value={parts[p]} onChange={(e) => setParts({ ...parts, [p]: e.target.value })} />
               </label>
@@ -84,11 +84,11 @@ export const PromptSixLab: React.FC = () => {
             </div>
             <span className="font-mono font-bold">{pct}%</span>
           </div>
-          <pre className="max-h-80 min-h-40 overflow-auto whitespace-pre-wrap rounded-xl bg-slate-950 p-3 font-mono text-[11px] text-indigo-200">{prompt || '// Prompt sẽ hiện ở đây…'}</pre>
+          <pre className="max-h-80 min-h-40 overflow-auto whitespace-pre-wrap rounded-xl bg-slate-950 p-3 font-mono text-xs text-indigo-200">{prompt || '// Prompt sẽ hiện ở đây…'}</pre>
           <button className="btn-primary mt-2" disabled={!prompt} onClick={() => { navigator.clipboard?.writeText(prompt); setCopied(true); setTimeout(() => setCopied(false), 1500); }}>
             {copied ? '✔ Đã copy' : '📋 Copy prompt'}
           </button>
-          <ul className="mt-3 space-y-1 text-[11px] text-slate-500 dark:text-slate-400">
+          <ul className="mt-3 space-y-1 text-xs text-slate-500 dark:text-slate-400">
             <li>• <b>Few-shot</b>: tác vụ lặp lại, cần format cố định (Gherkin, keyword-driven).</li>
             <li>• <b>Prompt chaining</b>: tác vụ phức tạp, cần người kiểm tra từng bước.</li>
             <li>• <b>Meta prompting</b>: tác vụ mới, chưa biết viết prompt thế nào.</li>

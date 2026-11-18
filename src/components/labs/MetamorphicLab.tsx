@@ -80,7 +80,7 @@ export const MetamorphicLab: React.FC = () => {
             <span>
               <span className="chip mr-1 border-slate-200 bg-slate-100 text-slate-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">{m.type}</span>
               <b>{m.label}</b>
-              <span className="block font-mono text-[10px] text-slate-500">Kỳ vọng: {m.expect}</span>
+              <span className="block font-mono text-xs text-slate-500">Kỳ vọng: {m.expect}</span>
             </span>
           </label>
         ))}
@@ -101,7 +101,7 @@ export const MetamorphicLab: React.FC = () => {
             <div key={mr.id} className={`rounded-xl border p-3 ${violations.length ? 'border-rose-300 bg-rose-50 dark:border-rose-500/40 dark:bg-rose-500/10' : 'border-emerald-300 bg-emerald-50 dark:border-emerald-500/40 dark:bg-emerald-500/10'}`}>
               <div className="font-bold">{violations.length ? '❌' : '✅'} {mr.label} — {violations.length}/{total} vi phạm</div>
               {violations.slice(0, 3).map((v, i) => (
-                <div key={i} className="mt-1 font-mono text-[10px]">
+                <div key={i} className="mt-1 font-mono text-xs">
                   src: {v.src.area}m², {v.src.bedrooms}PN, {v.src.district}, ID {v.src.listingId} → {v.s.toLocaleString()} tr | follow-up → {v.f.toLocaleString()} tr
                 </div>
               ))}

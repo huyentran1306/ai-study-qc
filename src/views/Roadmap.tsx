@@ -13,13 +13,13 @@ export const RoadmapView: React.FC<{ api: ProgressApi }> = ({ api }) => {
   const next = ROADMAP.find((s) => !done.has(s.id)) ?? ROADMAP[0];
 
   return (
-    <div className="mx-auto max-w-3xl space-y-8 px-4 py-10 animate-fadeIn">
+    <div className="mx-auto max-w-5xl space-y-10 px-4 py-12 animate-fadeIn">
       <header className="space-y-3 text-center">
-        <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 lg:text-4xl dark:text-white">
+        <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 lg:text-5xl dark:text-white">
           Hiểu AI trong 1 phút.<br />
           <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">Dùng AI để test trong 6 chặng.</span>
         </h1>
-        <p className="mx-auto max-w-xl text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+        <p className="mx-auto max-w-2xl text-lg leading-relaxed text-slate-600 dark:text-slate-400">
           Dành cho tester chưa biết gì về AI. Không cần toán, không cần code — xem, bấm thử, rồi áp dụng ngay vào việc.
         </p>
       </header>
@@ -27,7 +27,7 @@ export const RoadmapView: React.FC<{ api: ProgressApi }> = ({ api }) => {
       <AiExplainer />
 
       <div className="flex flex-col items-center gap-2 pt-2 text-center">
-        <h2 className="text-xl font-extrabold text-slate-900 dark:text-white">Lộ trình 6 chặng</h2>
+        <h2 className="text-2xl font-extrabold text-slate-900 dark:text-white">Lộ trình 6 chặng</h2>
         <p className="text-xs text-slate-500">Mỗi chặng: vài ý cần nắm · 1 bài thực hành · 1 prompt dùng ngay · 3 câu tự kiểm tra</p>
         <div className="flex items-center gap-3 pt-1">
           <a href={href(`stage/${next.id}`)} className="btn-primary px-5 py-2.5 text-sm">
@@ -42,19 +42,19 @@ export const RoadmapView: React.FC<{ api: ProgressApi }> = ({ api }) => {
           const isDone = done.has(s.id);
           return (
             <li key={s.id} className="relative">
-              <span className={`absolute -left-[37px] top-4 flex h-6 w-6 items-center justify-center rounded-full text-[11px] font-bold ${isDone ? 'bg-emerald-500 text-white' : 'border-2 border-indigo-300 bg-white text-indigo-600 dark:border-indigo-500/50 dark:bg-slate-900 dark:text-indigo-300'}`}>
+              <span className={`absolute -left-[37px] top-4 flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ${isDone ? 'bg-emerald-500 text-white' : 'border-2 border-indigo-300 bg-white text-indigo-600 dark:border-indigo-500/50 dark:bg-slate-900 dark:text-indigo-300'}`}>
                 {isDone ? '✓' : i + 1}
               </span>
               <a href={href(`stage/${s.id}`)} className="card block p-5 transition hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-md">
                 <div className="flex items-start gap-3">
-                  <span className="text-2xl">{s.emoji}</span>
+                  <span className="text-3xl">{s.emoji}</span>
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <h2 className="text-base font-bold text-slate-900 dark:text-white">{s.title}</h2>
-                      <span className="flex items-center gap-1 text-[11px] text-slate-500"><Clock className="h-3 w-3" /> {s.duration}</span>
+                      <h2 className="text-lg font-bold text-slate-900 dark:text-white">{s.title}</h2>
+                      <span className="flex items-center gap-1 text-xs text-slate-500"><Clock className="h-3 w-3" /> {s.duration}</span>
                     </div>
-                    <p className="mt-1 text-xs leading-relaxed text-slate-600 dark:text-slate-400">{s.goal}</p>
-                    <p className="mt-2 rounded-lg bg-slate-50 px-2.5 py-1.5 text-[11px] italic leading-relaxed text-slate-500 dark:bg-slate-950/60 dark:text-slate-400">
+                    <p className="mt-1 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{s.goal}</p>
+                    <p className="mt-2 rounded-lg bg-slate-50 px-3 py-2 text-sm italic leading-relaxed text-slate-500 dark:bg-slate-950/60 dark:text-slate-400">
                       {s.analogy}
                     </p>
                   </div>
@@ -74,7 +74,7 @@ export const RoadmapView: React.FC<{ api: ProgressApi }> = ({ api }) => {
         </ul>
       </section>
 
-      <p className="text-center text-[11px] text-slate-400">
+      <p className="text-center text-xs text-slate-400">
         Tiến độ lưu trên trình duyệt này. <button className="underline" onClick={() => confirm('Xoá toàn bộ tiến độ?') && api.reset()}>Xoá tiến độ</button>
       </p>
     </div>
@@ -97,7 +97,7 @@ const SelfCheck: React.FC<{ stage: Stage; onScore: (n: number) => void; best?: n
   return (
     <section className="card space-y-4 p-5">
       <div className="flex items-center justify-between">
-        <h2 className="font-bold text-slate-900 dark:text-white">✅ Tự kiểm tra</h2>
+        <h2 className="text-xl font-bold text-slate-900 dark:text-white">✅ Tự kiểm tra</h2>
         {answered === stage.quiz.length ? (
           <button className="text-xs text-indigo-600 underline" onClick={() => setPicked({})}>Làm lại · {correct}/{stage.quiz.length} đúng</button>
         ) : (
@@ -105,7 +105,7 @@ const SelfCheck: React.FC<{ stage: Stage; onScore: (n: number) => void; best?: n
         )}
       </div>
       {stage.quiz.map((q, qi) => (
-        <div key={qi} className="space-y-2 text-xs">
+        <div key={qi} className="space-y-2 text-sm">
           <p className="font-semibold text-slate-800 dark:text-slate-200">{qi + 1}. {q.q}</p>
           <div className="grid gap-1.5">
             {q.options.map((o, oi) => {
@@ -140,7 +140,7 @@ const TryNow: React.FC<{ stage: Stage }> = ({ stage }) => {
   return (
     <section className="card overflow-hidden">
       <div className="flex items-center justify-between gap-2 border-b border-slate-100 px-5 py-3 dark:border-slate-800">
-        <h2 className="font-bold text-slate-900 dark:text-white">⚡ Dùng ngay hôm nay: {stage.tryNow.label}</h2>
+        <h2 className="text-lg font-bold text-slate-900 dark:text-white">⚡ Dùng ngay hôm nay: {stage.tryNow.label}</h2>
         <button
           className="btn-primary"
           onClick={() => { navigator.clipboard?.writeText(stage.tryNow.prompt); setCopied(true); setTimeout(() => setCopied(false), 1500); }}
@@ -148,8 +148,8 @@ const TryNow: React.FC<{ stage: Stage }> = ({ stage }) => {
           {copied ? '✔ Đã copy' : '📋 Copy prompt'}
         </button>
       </div>
-      <pre className="whitespace-pre-wrap bg-slate-950 px-5 py-4 font-mono text-[12px] leading-relaxed text-indigo-200">{stage.tryNow.prompt}</pre>
-      <p className="px-5 py-2.5 text-[11px] text-slate-500">Dán vào công cụ AI công ty cho phép, thay phần [ … ] bằng dữ liệu của bạn — và nhớ kiểm chứng kết quả.</p>
+      <pre className="whitespace-pre-wrap bg-slate-950 px-5 py-4 font-mono text-sm leading-relaxed text-indigo-200 lg:text-base">{stage.tryNow.prompt}</pre>
+      <p className="px-5 py-2.5 text-xs text-slate-500">Dán vào công cụ AI công ty cho phép, thay phần [ … ] bằng dữ liệu của bạn — và nhớ kiểm chứng kết quả.</p>
     </section>
   );
 };
@@ -165,26 +165,26 @@ export const StageView: React.FC<{ stageId: string; api: ProgressApi }> = ({ sta
   const Lab = LAB_BY_ID[stage.lab].Component;
 
   return (
-    <div className="mx-auto max-w-4xl space-y-6 px-4 py-8 animate-fadeIn">
+    <div className="mx-auto max-w-5xl space-y-7 px-4 py-10 animate-fadeIn">
       <a href={href('')} className="inline-flex items-center gap-1 text-xs font-semibold text-slate-500 hover:text-indigo-600"><ArrowLeft className="h-3.5 w-3.5" /> Lộ trình</a>
 
       <header className="space-y-2">
         <div className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Chặng {idx + 1}/{ROADMAP.length} · {stage.duration}</div>
-        <h1 className="flex items-center gap-2 text-2xl font-extrabold tracking-tight text-slate-900 lg:text-3xl dark:text-white"><span>{stage.emoji}</span> {stage.title}</h1>
-        <p className="text-sm text-slate-600 dark:text-slate-400">🎯 {stage.goal}</p>
+        <h1 className="flex items-center gap-2 text-3xl font-extrabold tracking-tight text-slate-900 lg:text-4xl dark:text-white"><span>{stage.emoji}</span> {stage.title}</h1>
+        <p className="text-lg text-slate-600 dark:text-slate-400">🎯 {stage.goal}</p>
       </header>
 
-      <div className="rounded-2xl border border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50 p-4 text-sm leading-relaxed text-amber-950 dark:border-amber-500/30 dark:from-amber-500/10 dark:to-orange-500/10 dark:text-amber-100">
-        <span className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">Hiểu nhanh</span>
+      <div className="rounded-2xl border border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50 p-5 text-base leading-relaxed text-amber-950 dark:border-amber-500/30 dark:from-amber-500/10 dark:to-orange-500/10 dark:text-amber-100">
+        <span className="mb-1 block text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">Hiểu nhanh</span>
         {stage.analogy}
       </div>
 
-      <section className="card p-5">
-        <h2 className="mb-3 font-bold text-slate-900 dark:text-white">📌 Cần nắm</h2>
+      <section className="card p-6">
+        <h2 className="mb-4 text-xl font-bold text-slate-900 dark:text-white">📌 Cần nắm</h2>
         <ol className="space-y-3">
           {stage.points.map((p, i) => (
-            <li key={i} className="flex gap-3 text-sm">
-              <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-indigo-100 font-mono text-[10px] font-bold text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300">{i + 1}</span>
+            <li key={i} className="flex gap-3 text-base">
+              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-indigo-100 font-mono text-xs font-bold text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300">{i + 1}</span>
               <div>
                 <div className="font-semibold text-slate-900 dark:text-white">{p.t}</div>
                 <div className="mt-0.5 leading-relaxed text-slate-600 dark:text-slate-400">{p.d}</div>
@@ -192,13 +192,13 @@ export const StageView: React.FC<{ stageId: string; api: ProgressApi }> = ({ sta
             </li>
           ))}
         </ol>
-        <p className="mt-4 border-t border-slate-100 pt-3 text-[11px] text-slate-500 dark:border-slate-800">Liên quan ISTQB: {stage.istqb}</p>
+        <p className="mt-4 border-t border-slate-100 pt-3 text-xs text-slate-500 dark:border-slate-800">Liên quan ISTQB: {stage.istqb}</p>
       </section>
 
       <TryNow stage={stage} />
 
       <section>
-        <h2 className="font-bold text-slate-900 dark:text-white">🧪 Thực hành</h2>
+        <h2 className="text-xl font-bold text-slate-900 dark:text-white">🧪 Thực hành</h2>
         <Lab />
         {stage.extraLabs && (
           <p className="mt-2 text-xs text-slate-500">
@@ -230,7 +230,7 @@ export const LabsView: React.FC<{ labId?: string }> = ({ labId }) => {
     const L = lab.Component;
     const stage = ROADMAP.find((s) => s.lab === lab.id || s.extraLabs?.includes(lab.id));
     return (
-      <div className="mx-auto max-w-4xl space-y-3 px-4 py-8 animate-fadeIn">
+      <div className="mx-auto max-w-5xl space-y-3 px-4 py-8 animate-fadeIn">
         <a href={href('labs')} className="inline-flex items-center gap-1 text-xs font-semibold text-slate-500 hover:text-indigo-600"><ArrowLeft className="h-3.5 w-3.5" /> Tất cả bài thực hành</a>
         <L />
         {stage && <p className="text-xs text-slate-500">Thuộc <a className="text-indigo-600 underline" href={href(`stage/${stage.id}`)}>Chặng {ROADMAP.indexOf(stage) + 1}: {stage.title}</a></p>}
@@ -238,7 +238,7 @@ export const LabsView: React.FC<{ labId?: string }> = ({ labId }) => {
     );
   }
   return (
-    <div className="mx-auto max-w-4xl space-y-5 px-4 py-10 animate-fadeIn">
+    <div className="mx-auto max-w-5xl space-y-5 px-4 py-10 animate-fadeIn">
       <div>
         <h1 className="flex items-center gap-2 text-2xl font-extrabold text-slate-900 dark:text-white"><FlaskConical className="h-6 w-6 text-indigo-600" /> Thực hành</h1>
         <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">Chạy ngay trên trình duyệt, không cần cài đặt hay API key.</p>

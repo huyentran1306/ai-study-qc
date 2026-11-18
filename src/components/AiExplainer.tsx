@@ -40,9 +40,9 @@ const STEPS = [
 const Bars: React.FC<{ cands: Cand[]; chosen?: number; danger?: boolean }> = ({ cands, chosen = 0, danger }) => (
   <div className="space-y-1.5">
     {cands.map((c, i) => (
-      <div key={c.w} className="flex items-center gap-2 text-xs">
+      <div key={c.w} className="flex items-center gap-2 text-sm">
         <span className={`w-36 shrink-0 truncate font-mono ${i === chosen ? 'font-bold text-slate-900 dark:text-white' : 'text-slate-500'}`}>{c.w.trim() || c.w}</span>
-        <div className="h-5 flex-1 overflow-hidden rounded-md bg-slate-200/70 dark:bg-slate-800">
+        <div className="h-6 flex-1 overflow-hidden rounded-md bg-slate-200/70 dark:bg-slate-800">
           <div
             className={`h-full rounded-md transition-all duration-700 ${i === chosen ? (danger ? 'bg-gradient-to-r from-rose-500 to-orange-400' : 'bg-gradient-to-r from-indigo-500 to-violet-500') : 'bg-slate-400/60 dark:bg-slate-600'}`}
             style={{ width: `${c.p}%` }}
@@ -93,8 +93,8 @@ export const AiExplainer: React.FC = () => {
     <div className="overflow-hidden rounded-3xl border border-indigo-200/70 bg-white shadow-xl shadow-indigo-500/10 dark:border-indigo-500/20 dark:bg-[#0F1424]">
       {/* Title bar */}
       <div className="flex items-center gap-2 border-b border-slate-100 bg-gradient-to-r from-indigo-600 to-violet-600 px-4 py-2.5 text-white dark:border-slate-800">
-        <span className="text-sm font-bold">🔍 Bên trong AI — xem trong 1 phút</span>
-        <span className="ml-auto font-mono text-[11px] opacity-80">{step + 1}/{STEPS.length}</span>
+        <span className="text-base font-bold">🔍 Bên trong AI — xem trong 1 phút</span>
+        <span className="ml-auto font-mono text-xs opacity-80">{step + 1}/{STEPS.length}</span>
       </div>
 
       {/* Progress */}
@@ -104,10 +104,10 @@ export const AiExplainer: React.FC = () => {
         ))}
       </div>
 
-      <div className="min-h-[300px] space-y-4 p-5">
+      <div className="min-h-[340px] space-y-4 p-5">
         <div key={step} className="animate-fadeIn space-y-1">
-          <h3 className="text-lg font-extrabold text-slate-900 dark:text-white">{STEPS[step].title}</h3>
-          {STEPS[step].note && <p className="text-sm leading-relaxed text-slate-600 dark:text-slate-400">{STEPS[step].note}</p>}
+          <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white">{STEPS[step].title}</h3>
+          {STEPS[step].note && <p className="text-base leading-relaxed text-slate-600 dark:text-slate-400">{STEPS[step].note}</p>}
         </div>
 
         {/* Step visuals */}
@@ -136,7 +136,7 @@ export const AiExplainer: React.FC = () => {
             {MAP_POINTS.map((m, i) => (
               <div key={m.w} className="animate-pop absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center" style={{ left: `${m.x}%`, top: `${m.y}%`, animationDelay: `${i * 0.12}s` }}>
                 <span className={`h-3 w-3 rounded-full shadow ${m.g === 'a' ? 'bg-indigo-500' : m.g === 'b' ? 'bg-rose-500' : 'bg-amber-500'}`} />
-                <span className="mt-0.5 whitespace-nowrap text-[11px] font-semibold text-slate-700 dark:text-slate-300">{m.w}</span>
+                <span className="mt-0.5 whitespace-nowrap text-xs font-semibold text-slate-700 dark:text-slate-300">{m.w}</span>
               </div>
             ))}
           </div>
@@ -145,14 +145,14 @@ export const AiExplainer: React.FC = () => {
         {step === 3 && (
           <div className="grid gap-4 md:grid-cols-2">
             <div className="rounded-2xl bg-slate-100 p-4 text-sm dark:bg-slate-900">
-              <div className="mb-2 text-[11px] font-bold uppercase tracking-wider text-slate-500">AI đang viết</div>
+              <div className="mb-2 text-xs font-bold uppercase tracking-wider text-slate-500">AI đang viết</div>
               <p className="font-medium text-slate-800 dark:text-slate-200">
                 {answer}
                 <span className="ml-0.5 inline-block h-4 w-2 animate-pulse bg-indigo-500 align-middle" />
               </p>
             </div>
             <div>
-              <div className="mb-2 text-[11px] font-bold uppercase tracking-wider text-slate-500">Chữ tiếp theo có thể là…</div>
+              <div className="mb-2 text-xs font-bold uppercase tracking-wider text-slate-500">Chữ tiếp theo có thể là…</div>
               <Bars key={gen} cands={GEN[Math.min(gen, GEN.length - 1)]} />
             </div>
           </div>
@@ -163,7 +163,7 @@ export const AiExplainer: React.FC = () => {
             <div className="space-y-2 rounded-2xl bg-slate-100 p-4 text-sm dark:bg-slate-900">
               <div className="ml-auto w-fit rounded-2xl rounded-br-sm bg-indigo-600 px-3 py-2 text-white">Mã lỗi khi khoá tài khoản ở app của tôi là gì?</div>
               <div className="w-fit rounded-2xl rounded-bl-sm border border-rose-300 bg-rose-50 px-3 py-2 text-rose-900 dark:border-rose-500/40 dark:bg-rose-500/10 dark:text-rose-200">
-                Mã lỗi là <b>E-401</b>. <span className="text-[11px]">← nghe rất tự tin, nhưng là đoán</span>
+                Mã lỗi là <b>E-401</b>. <span className="text-xs">← nghe rất tự tin, nhưng là đoán</span>
               </div>
             </div>
             <Bars danger cands={[{ w: 'E-401', p: 31 }, { w: 'ERR_LOCKED', p: 27 }, { w: '1003', p: 22 }, { w: 'AUTH-423', p: 14 }, { w: 'Tôi không biết', p: 6 }]} />
@@ -174,7 +174,7 @@ export const AiExplainer: React.FC = () => {
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2 rounded-2xl bg-slate-100 p-4 text-sm dark:bg-slate-900">
               <div className="ml-auto w-fit max-w-full rounded-2xl rounded-br-sm bg-indigo-600 px-3 py-2 text-white">
-                <span className="mb-1 block rounded-lg bg-white/15 px-2 py-1 text-[11px]">📎 Tài liệu: “Khoá tài khoản sau 5 lần sai, trả mã AUTH-423”</span>
+                <span className="mb-1 block rounded-lg bg-white/15 px-2 py-1 text-xs">📎 Tài liệu: “Khoá tài khoản sau 5 lần sai, trả mã AUTH-423”</span>
                 Mã lỗi khi khoá tài khoản là gì?
               </div>
               <div className="w-fit rounded-2xl rounded-bl-sm border border-emerald-300 bg-emerald-50 px-3 py-2 text-emerald-900 dark:border-emerald-500/40 dark:bg-emerald-500/10 dark:text-emerald-200">
@@ -194,8 +194,8 @@ export const AiExplainer: React.FC = () => {
             ].map((c, i) => (
               <div key={c.t} className="animate-pop rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50 to-violet-50 p-4 dark:border-indigo-500/20 dark:from-indigo-500/10 dark:to-violet-500/10" style={{ animationDelay: `${i * 0.15}s` }}>
                 <div className="text-3xl">{c.e}</div>
-                <div className="mt-2 font-bold text-slate-900 dark:text-white">{c.t}</div>
-                <div className="mt-1 text-xs text-slate-600 dark:text-slate-400">{c.d}</div>
+                <div className="mt-2 text-lg font-bold text-slate-900 dark:text-white">{c.t}</div>
+                <div className="mt-1 text-sm text-slate-600 dark:text-slate-400">{c.d}</div>
               </div>
             ))}
           </div>
@@ -210,7 +210,7 @@ export const AiExplainer: React.FC = () => {
         ) : (
           <button className="btn-ghost" onClick={() => { setStep(0); setPlaying(true); }}><RotateCcw className="h-3.5 w-3.5" /> Xem lại</button>
         )}
-        <span className="ml-auto text-[10px] text-slate-400">Mô phỏng minh hoạ</span>
+        <span className="ml-auto text-xs text-slate-400">Mô phỏng minh hoạ</span>
         <button className="btn-primary" onClick={() => go(step + 1)} disabled={step === STEPS.length - 1}>Tiếp <ChevronRight className="h-4 w-4" /></button>
       </div>
     </div>

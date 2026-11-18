@@ -64,7 +64,7 @@ export const ConfusionMatrixLab: React.FC = () => {
 
   const cell = (key: keyof typeof m, label: string, tone: string) => (
     <label className={`flex flex-col gap-1 rounded-xl border p-3 ${tone}`}>
-      <span className="text-[10px] font-bold uppercase tracking-wider">{label}</span>
+      <span className="text-xs font-bold uppercase tracking-wider">{label}</span>
       <input
         type="number"
         min={0}
@@ -111,16 +111,16 @@ export const ConfusionMatrixLab: React.FC = () => {
     <LabShell icon="🧮" title="Confusion Matrix Lab" subtitle="Nhập 4 ô để thấy các metric thay đổi, rồi tự luyện với đề ngẫu nhiên." badge="CT-AI 3.3.1">
       <div className="grid gap-4 lg:grid-cols-2">
         <div>
-          <div className="mb-2 grid grid-cols-[auto_1fr_1fr] items-center gap-2 text-center text-[10px] font-bold uppercase tracking-wider text-slate-500">
+          <div className="mb-2 grid grid-cols-[auto_1fr_1fr] items-center gap-2 text-center text-xs font-bold uppercase tracking-wider text-slate-500">
             <span />
             <span>Thực tế Positive</span>
             <span>Thực tế Negative</span>
           </div>
           <div className="grid grid-cols-[auto_1fr_1fr] items-stretch gap-2">
-            <span className="flex items-center text-[10px] font-bold uppercase text-slate-500 [writing-mode:vertical-rl] rotate-180">Dự đoán +</span>
+            <span className="flex items-center text-xs font-bold uppercase text-slate-500 [writing-mode:vertical-rl] rotate-180">Dự đoán +</span>
             {cell('tp', 'TP', 'border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-300')}
             {cell('fp', 'FP (báo nhầm)', 'border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-300')}
-            <span className="flex items-center text-[10px] font-bold uppercase text-slate-500 [writing-mode:vertical-rl] rotate-180">Dự đoán −</span>
+            <span className="flex items-center text-xs font-bold uppercase text-slate-500 [writing-mode:vertical-rl] rotate-180">Dự đoán −</span>
             {cell('fn', 'FN (bỏ sót)', 'border-rose-200 bg-rose-50 text-rose-800 dark:border-rose-500/30 dark:bg-rose-500/10 dark:text-rose-300')}
             {cell('tn', 'TN', 'border-sky-200 bg-sky-50 text-sky-800 dark:border-sky-500/30 dark:bg-sky-500/10 dark:text-sky-300')}
           </div>
@@ -130,7 +130,7 @@ export const ConfusionMatrixLab: React.FC = () => {
           <Stat label="Precision" value={pct(r.precision)} hint="TP/(TP+FP)" tone="amber" />
           <Stat label="Recall" value={pct(r.recall)} hint="TP/(TP+FN)" tone="rose" />
           <Stat label="F1-score" value={pct(r.f1)} hint="2PR/(P+R)" tone="emerald" />
-          <p className="col-span-2 rounded-xl bg-white/70 p-2 text-[11px] leading-relaxed dark:bg-slate-900/70">
+          <p className="col-span-2 rounded-xl bg-white/70 p-2 text-xs leading-relaxed dark:bg-slate-900/70">
             💡 Thử đặt TP=0, FP=0, FN=10, TN=990: accuracy 99% nhưng recall 0% — bẫy <b>class imbalance</b>.
           </p>
         </div>
@@ -153,7 +153,7 @@ export const ConfusionMatrixLab: React.FC = () => {
               <button className="btn-ghost" onClick={check}>Kiểm tra</button>
             </div>
             {feedback && (
-              <p className={`rounded-lg p-2 font-mono text-[11px] ${feedback.ok ? 'bg-emerald-50 text-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-300' : 'bg-rose-50 text-rose-800 dark:bg-rose-500/10 dark:text-rose-300'}`}>
+              <p className={`rounded-lg p-2 font-mono text-xs ${feedback.ok ? 'bg-emerald-50 text-emerald-800 dark:bg-emerald-500/10 dark:text-emerald-300' : 'bg-rose-50 text-rose-800 dark:bg-rose-500/10 dark:text-rose-300'}`}>
                 {feedback.text}
               </p>
             )}
