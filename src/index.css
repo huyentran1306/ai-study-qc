@@ -9,7 +9,6 @@
 }
 
 html { scroll-behavior: smooth; font-size: 100%; }
-@media (min-width: 1280px) { html { font-size: 106.25%; } }
 
 @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 .animate-fadeIn { animation: fadeIn .35s ease-out both; }
@@ -48,12 +47,12 @@ html { scroll-behavior: smooth; font-size: 100%; }
 .dark .ls-tint { background-color: color-mix(in srgb, var(--ac) 14%, #0f172a); }
 .ls-ring { border-color: color-mix(in srgb, var(--ac) 55%, transparent); }
 .ls-num {
-  font-size: 3.75rem; font-weight: 900; line-height: .8; letter-spacing: -.04em;
+  font-size: 2.75rem; font-weight: 900; line-height: .8; letter-spacing: -.04em;
   background-image: linear-gradient(135deg, var(--ac), var(--ac2));
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 .ls-hero-num {
-  font-size: 22rem; font-weight: 900; line-height: 1; letter-spacing: -.06em;
+  font-size: 16rem; font-weight: 900; line-height: 1; letter-spacing: -.06em;
   color: transparent; -webkit-text-stroke: 2px color-mix(in srgb, var(--ac) 22%, transparent);
 }
 .ls-dots { background-image: radial-gradient(circle at 1px 1px, rgba(15,23,42,.07) 1px, transparent 0); background-size: 26px 26px; }

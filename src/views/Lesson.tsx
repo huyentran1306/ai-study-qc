@@ -36,12 +36,12 @@ export const Ring: React.FC<{ value: number; total: number; size?: number; label
 };
 
 const SectionHead: React.FC<{ k: number; title: string; sub: string }> = ({ k, title, sub }) => (
-  <header className="mb-6 flex items-end gap-4">
+  <header className="mb-5 flex items-end gap-3">
     <span className="ls-num select-none">{pad(k + 1)}</span>
     <div className="min-w-0 pb-0.5">
       <div className="ls-text text-xs font-bold uppercase tracking-[.18em]">{SECTIONS[k].icon} {SECTIONS[k].name}</div>
-      <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 lg:text-[1.75rem] dark:text-white">{title}</h2>
-      <p className="mt-0.5 text-slate-500 dark:text-slate-400">{sub}</p>
+      <h2 className="text-xl font-extrabold tracking-tight text-slate-900 lg:text-2xl dark:text-white">{title}</h2>
+      <p className="mt-0.5 text-sm text-slate-500 dark:text-slate-400">{sub}</p>
     </div>
   </header>
 );
@@ -58,7 +58,7 @@ const BeforeAfter: React.FC<{ ex: Ex }> = ({ ex }) => {
       b: 'border-violet-200 bg-violet-50 dark:border-violet-500/30 dark:bg-violet-500/10 [&_.lbl]:text-violet-600 dark:[&_.lbl]:text-violet-400',
     };
     return (
-      <div className={`h-full rounded-2xl border p-4 lg:p-5 ${tones[tone]}`}>
+      <div className={`h-full rounded-2xl border p-4 text-[0.95rem] ${tones[tone]}`}>
         <div className="lbl mb-2 text-xs font-bold uppercase tracking-wider">{label}</div>
         <div className="space-y-1.5 leading-relaxed text-slate-800 dark:text-slate-200">
           {text.split(' · ').map((line, k) => <p key={k}>{line}</p>)}
@@ -85,7 +85,7 @@ const IdeaExplorer: React.FC<{ stage: Stage }> = ({ stage }) => {
   const n = stage.points.length;
 
   return (
-    <div className="grid gap-5 xl:grid-cols-[minmax(280px,360px)_minmax(0,1fr)]">
+    <div className="grid gap-5 xl:grid-cols-[minmax(260px,320px)_minmax(0,1fr)]">
       <ol className="flex gap-2 overflow-x-auto pb-1 xl:flex-col xl:overflow-visible xl:pb-0">
         {stage.points.map((pt, k) => {
           const on = k === i;
@@ -93,35 +93,35 @@ const IdeaExplorer: React.FC<{ stage: Stage }> = ({ stage }) => {
             <li key={k} className="shrink-0 xl:shrink">
               <button
                 onClick={() => go(k)}
-                className={`group flex w-64 items-start gap-3 rounded-2xl border p-3.5 text-left transition xl:w-full ${
+                className={`group flex w-60 items-start gap-3 rounded-xl border p-3 text-left transition xl:w-full ${
                   on ? 'ls-tint ls-ring border-2 shadow-sm' : 'border-slate-200 bg-white hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-600'
                 }`}
               >
                 <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-xl font-mono text-sm font-bold ${on ? 'ls-grad text-white' : seen.has(k) ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300' : 'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400'}`}>
                   {seen.has(k) && !on ? <Check className="h-4 w-4" /> : k + 1}
                 </span>
-                <span className={`pt-1 text-[0.95rem] font-semibold leading-snug ${on ? 'text-slate-900 dark:text-white' : 'text-slate-600 dark:text-slate-300'}`}>{pt.t}</span>
+                <span className={`pt-1 text-sm font-semibold leading-snug ${on ? 'text-slate-900 dark:text-white' : 'text-slate-600 dark:text-slate-300'}`}>{pt.t}</span>
               </button>
             </li>
           );
         })}
       </ol>
 
-      <article key={i} className="card animate-fadeIn relative overflow-hidden p-6 lg:p-8">
+      <article key={i} className="card animate-fadeIn relative overflow-hidden p-5 lg:p-6">
         <div className="ls-grad absolute inset-x-0 top-0 h-1" />
         <div className="mb-1 flex items-center justify-between">
           <span className="ls-text font-mono text-xs font-bold uppercase tracking-widest">Ý {i + 1} / {n}</span>
           <span className="text-xs text-slate-400">Đã xem {seen.size}/{n}</span>
         </div>
-        <h3 className="text-2xl font-extrabold leading-tight tracking-tight text-slate-900 lg:text-3xl dark:text-white">{p.t}</h3>
-        <p className="mt-3 max-w-3xl text-lg leading-relaxed text-slate-600 dark:text-slate-300">{p.d}</p>
+        <h3 className="text-xl font-extrabold leading-tight tracking-tight text-slate-900 lg:text-2xl dark:text-white">{p.t}</h3>
+        <p className="mt-2 max-w-3xl text-base leading-relaxed text-slate-600 dark:text-slate-300">{p.d}</p>
         {p.ex && (
-          <div className="mt-6 space-y-2">
+          <div className="mt-5 space-y-2">
             <div className="text-xs font-bold uppercase tracking-wider text-slate-400">Ví dụ cụ thể</div>
             <BeforeAfter ex={p.ex} />
           </div>
         )}
-        <div className="mt-6 flex items-center justify-between border-t border-slate-100 pt-4 dark:border-slate-800">
+        <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4 dark:border-slate-800">
           <button className="btn-ghost" disabled={i === 0} onClick={() => go(i - 1)}><ArrowLeft className="h-4 w-4" /> Ý trước</button>
           <div className="flex gap-1.5">
             {stage.points.map((_, k) => (
@@ -145,7 +145,7 @@ const PromptTerminal: React.FC<{ stage: Stage }> = ({ stage }) => {
     ['Kiểm chứng', 'Đọc lại kết quả, đối chiếu với requirement trước khi dùng.'],
   ];
   return (
-    <div className="grid gap-5 xl:grid-cols-[300px_minmax(0,1fr)]">
+    <div className="grid gap-5 xl:grid-cols-[260px_minmax(0,1fr)]">
       <ol className="space-y-3">
         {steps.map(([t, d], k) => (
           <li key={t} className="card flex gap-3 p-4">
@@ -168,7 +168,7 @@ const PromptTerminal: React.FC<{ stage: Stage }> = ({ stage }) => {
             {copied ? <><Check className="h-3.5 w-3.5" /> Đã copy</> : <><ClipboardCopy className="h-3.5 w-3.5" /> Copy</>}
           </button>
         </div>
-        <pre className="whitespace-pre-wrap px-5 py-5 font-mono text-[0.95rem] leading-relaxed text-slate-800 lg:px-6 dark:text-slate-200">
+        <pre className="whitespace-pre-wrap px-5 py-4 font-mono text-sm leading-relaxed text-slate-800 lg:px-6 dark:text-slate-200">
           <span className="ls-text select-none">❯ </span>
           {parts.map((s, k) => (s.startsWith('[') ? <mark key={k} className="rounded bg-amber-100 px-1 font-semibold text-amber-800 dark:bg-amber-400/20 dark:text-amber-300">{s}</mark> : <React.Fragment key={k}>{s}</React.Fragment>))}
         </pre>
@@ -195,7 +195,7 @@ const Quiz: React.FC<{ stage: Stage; best?: number; onScore: (n: number) => void
       <div className="flex flex-wrap items-center gap-4">
         <Ring value={answered === total ? correct : answered} total={total} label={answered === total ? `${correct}/${total}` : `${answered}/${total}`} />
         <div>
-          <div className="text-lg font-bold text-slate-900 dark:text-white">
+          <div className="text-base font-bold text-slate-900 dark:text-white">
             {answered < total ? `Tự kiểm tra · ${total} câu` : correct === total ? '🎉 Đúng hết! Bạn nắm chắc chặng này' : `Đúng ${correct}/${total} — xem lại giải thích bên dưới`}
           </div>
           <div className="text-sm text-slate-500">
@@ -242,7 +242,7 @@ const Quiz: React.FC<{ stage: Stage; best?: number; onScore: (n: number) => void
 };
 
 const CheatSheet: React.FC<{ stage: Stage; remember: string[] }> = ({ stage, remember }) => (
-  <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 text-slate-900 shadow-sm lg:p-8 dark:border-transparent dark:bg-slate-950 dark:text-white">
+  <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-5 text-slate-900 shadow-sm lg:p-6 dark:border-transparent dark:bg-slate-950 dark:text-white">
     <div className="ls-grad absolute inset-x-0 top-0 h-1" />
     <div className="ls-blob pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full opacity-[.12] blur-3xl dark:opacity-40" />
     <div className="relative grid gap-8 lg:grid-cols-2">
@@ -335,8 +335,8 @@ export const StageView: React.FC<{ stageId: string; api: ProgressApi }> = ({ sta
         <div className="ls-blob2 pointer-events-none absolute -bottom-48 right-0 h-[30rem] w-[30rem] rounded-full opacity-[.16] blur-3xl dark:opacity-40" />
         <span className="ls-hero-num pointer-events-none absolute -right-4 -top-10 hidden select-none lg:block">{pad(idx + 1)}</span>
 
-        <div className={`relative ${px} pb-10 pt-6 lg:pb-14`}>
-          <nav className="mb-8 flex flex-wrap items-center gap-2 text-sm">
+        <div className={`relative ${px} pb-8 pt-5 lg:pb-10`}>
+          <nav className="mb-6 flex flex-wrap items-center gap-2 text-sm">
             <a href={href('')} className="inline-flex items-center gap-1 font-semibold text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"><ArrowLeft className="h-3.5 w-3.5" /> Lộ trình</a>
             <span className="text-slate-300 dark:text-slate-600">/</span>
             <div className="flex gap-1.5">
@@ -351,30 +351,30 @@ export const StageView: React.FC<{ stageId: string; api: ProgressApi }> = ({ sta
             </div>
           </nav>
 
-          <div className="grid items-end gap-8 lg:grid-cols-[minmax(0,1fr)_400px]">
-            <div className="space-y-5">
-              <div className="flex items-center gap-4">
-                <span className="ls-tint flex h-16 w-16 items-center justify-center rounded-2xl border border-slate-200 text-4xl shadow-lg shadow-slate-200/60 backdrop-blur dark:border-white/15 dark:shadow-xl dark:shadow-black/30">{stage.emoji}</span>
+          <div className="grid items-end gap-8 lg:grid-cols-[minmax(0,1fr)_360px]">
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <span className="ls-tint flex h-12 w-12 items-center justify-center rounded-xl border border-slate-200 text-2xl shadow-lg shadow-slate-200/60 backdrop-blur dark:border-white/15 dark:shadow-xl dark:shadow-black/30">{stage.emoji}</span>
                 <span className="ls-text text-sm font-bold uppercase tracking-[.2em]">Chặng {pad(idx + 1)} / {pad(ROADMAP.length)}</span>
               </div>
-              <h1 className="max-w-4xl text-3xl font-black leading-[1.1] tracking-tight sm:text-4xl xl:text-5xl">{stage.title}</h1>
-              <p className="max-w-3xl text-lg leading-relaxed text-slate-600 dark:text-slate-300">🎯 {stage.goal}</p>
-              <div className="flex flex-wrap gap-2 text-sm">
+              <h1 className="max-w-4xl text-2xl font-black leading-[1.15] tracking-tight sm:text-3xl xl:text-4xl">{stage.title}</h1>
+              <p className="max-w-3xl text-base leading-relaxed text-slate-600 dark:text-slate-300">🎯 {stage.goal}</p>
+              <div className="flex flex-wrap gap-2 text-xs">
                 <span className="ls-chip"><Clock className="h-3.5 w-3.5" /> {stage.duration}</span>
                 <span className="ls-chip">📖 {stage.points.length} ý chính</span>
                 <span className="ls-chip"><FlaskConical className="h-3.5 w-3.5" /> {lab.title}</span>
                 <span className="ls-chip"><GraduationCap className="h-3.5 w-3.5" /> {stage.istqb}</span>
               </div>
-              <button onClick={() => jump(0)} className="ls-grad inline-flex items-center gap-2 rounded-2xl px-6 py-3 font-bold text-white shadow-xl transition hover:-translate-y-0.5 hover:shadow-2xl">
+              <button onClick={() => jump(0)} className="ls-grad inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-2xl">
                 {seen.size > 1 ? 'Học tiếp' : 'Bắt đầu học'} <ArrowDown className="h-4 w-4" />
               </button>
             </div>
 
             <div className="rounded-3xl border border-slate-200 bg-white/80 p-5 shadow-xl shadow-slate-200/60 backdrop-blur-md dark:border-white/10 dark:bg-white/[.06] dark:shadow-none">
               <div className="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-[.18em] text-amber-600 dark:text-amber-300"><Lightbulb className="h-4 w-4" /> Hiểu trong 1 câu</div>
-              <p className="text-lg leading-relaxed text-slate-800 dark:text-slate-100">{stage.analogy}</p>
-              <div className="mt-5 flex items-center gap-4 border-t border-slate-100 pt-4 dark:border-white/10">
-                <Ring value={seen.size} total={SECTIONS.length} size={56} />
+              <p className="text-base leading-relaxed text-slate-800 dark:text-slate-100">{stage.analogy}</p>
+              <div className="mt-4 flex items-center gap-3 border-t border-slate-100 pt-4 dark:border-white/10">
+                <Ring value={seen.size} total={SECTIONS.length} size={48} />
                 <div className="text-sm text-slate-500 dark:text-slate-300">
                   <div className="font-semibold text-slate-900 dark:text-white">{isDone ? '🎉 Đã hoàn thành' : 'Tiến độ chặng này'}</div>
                   Đã xem {seen.size}/{SECTIONS.length} phần
@@ -398,7 +398,7 @@ export const StageView: React.FC<{ stageId: string; api: ProgressApi }> = ({ sta
       </nav>
 
       {/* ── BODY ── */}
-      <div className={`grid gap-10 py-10 lg:grid-cols-[240px_minmax(0,1fr)] xl:gap-14 ${px}`}>
+      <div className={`grid gap-8 py-8 lg:grid-cols-[220px_minmax(0,1fr)] xl:gap-12 ${px}`}>
         {/* sidebar */}
         <aside className="hidden lg:block">
           <div className="sticky top-24 space-y-5">
@@ -438,7 +438,7 @@ export const StageView: React.FC<{ stageId: string; api: ProgressApi }> = ({ sta
         </aside>
 
         {/* content */}
-        <main className="min-w-0 space-y-20">
+        <main className="min-w-0 space-y-14">
           {visual && (
             <section id="sec-map" className="scroll-mt-28">
               <SectionHead k={0} title={visual.diagram.title} sub="Nhìn cả bức tranh trước khi đi vào chi tiết. Bấm từng khối để xem nó làm gì." />
@@ -485,13 +485,13 @@ export const StageView: React.FC<{ stageId: string; api: ProgressApi }> = ({ sta
 
             {next ? (
               <a href={href(`stage/${next.id}`)} onClick={() => !isDone && api.toggleDone(stage.id)}
-                className="group relative flex flex-wrap items-center gap-5 overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 transition hover:-translate-y-0.5 hover:shadow-xl lg:p-8 dark:border-slate-800 dark:bg-slate-900"
+                className="group relative flex flex-wrap items-center gap-5 overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 transition hover:-translate-y-0.5 hover:shadow-xl lg:p-6 dark:border-slate-800 dark:bg-slate-900"
                 style={stageVars(next.id)}>
                 <div className="ls-grad absolute inset-y-0 left-0 w-1.5" />
-                <span className="text-5xl">{next.emoji}</span>
+                <span className="text-4xl">{next.emoji}</span>
                 <div className="min-w-0 flex-1">
                   <div className="ls-text text-xs font-bold uppercase tracking-[.18em]">Hoàn thành & sang chặng {idx + 2}</div>
-                  <div className="text-xl font-extrabold text-slate-900 dark:text-white">{next.title}</div>
+                  <div className="text-lg font-extrabold text-slate-900 dark:text-white">{next.title}</div>
                   <div className="text-slate-500">{next.goal}</div>
                 </div>
                 <span className="ls-grad flex h-12 w-12 items-center justify-center rounded-full text-white shadow-lg transition group-hover:translate-x-1"><ArrowRight className="h-5 w-5" /></span>
